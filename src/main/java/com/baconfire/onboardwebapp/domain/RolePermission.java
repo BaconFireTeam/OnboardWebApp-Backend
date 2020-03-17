@@ -1,5 +1,4 @@
-package com.bfstraining.baconproject1.domain;
-
+package com.baconfire.onboardwebapp.domain;
 
 import javax.persistence.*;
 
