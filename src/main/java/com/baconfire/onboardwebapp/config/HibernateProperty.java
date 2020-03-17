@@ -1,4 +1,4 @@
-package com.bfstraining.baconproject1.config;
+package com.baconfire.onboardwebapp.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
