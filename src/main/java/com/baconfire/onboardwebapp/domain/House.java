@@ -29,8 +29,5 @@ public class House implements Serializable {
     @Column(name = "NumberOfPerson")
     private String NumberOfPerson;
 
-    @Column(name = "MaxPerson")
-    private String MaxPerson;
-
 }
 
