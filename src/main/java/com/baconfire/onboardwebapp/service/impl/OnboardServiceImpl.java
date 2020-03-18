@@ -14,4 +14,10 @@ public class OnboardServiceImpl implements OnboardService {
     public User login(String username, String password) {
         return userDaoImpl.login(username, password);
     }
+
+    @Override
+    public void register(User user) {
+//        user.setPersonID(null);
+//        need to figure out the personId
+    }
 }

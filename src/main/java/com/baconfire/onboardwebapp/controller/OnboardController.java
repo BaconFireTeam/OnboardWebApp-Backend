@@ -4,6 +4,7 @@ import com.baconfire.onboardwebapp.domain.User;
 import com.baconfire.onboardwebapp.service.impl.OnboardServiceImpl;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,6 +18,10 @@ public class OnboardController {
         return onboardService.login(username, password);
     }
 
+    public void newUser(@RequestBody User user){
+        //for register user
+        //onboardService.newUser(user);
+    }
 
     public void tokenLogin(String email, String token){
         //sign in with token proceed to registration
