@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class OnboardController {
-
     private OnboardServiceImpl onboardService;
 
     @PostMapping("/login")
