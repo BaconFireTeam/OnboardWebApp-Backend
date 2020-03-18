@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 
-@Repository
-public class UserDaoImpl extends AbstractHibernateDAO implements UserDao {
-
+@Repository("userDaoImpl")
+public class UserDaoImpl extends AbstractHibernateDAO<User> implements UserDao {
+    public UserDaoImpl() {
+        setClazz(User.class);
+    }
     @Override
     public User login(String username, String password) {
         String hql = "FROM User WHERE UserName = :username AND Password = :password";
