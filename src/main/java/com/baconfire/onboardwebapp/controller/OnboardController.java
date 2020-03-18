@@ -2,6 +2,7 @@ package com.baconfire.onboardwebapp.controller;
 
 import com.baconfire.onboardwebapp.domain.User;
 import com.baconfire.onboardwebapp.service.impl.OnboardServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class OnboardController {
 
     private OnboardServiceImpl onboardService;
+
+    @Autowired
+    public void setOnboardService(OnboardServiceImpl onboardService) {
+        this.onboardService = onboardService;
+    }
 
     @PostMapping("/login")
     public User login(String username, String password) {
