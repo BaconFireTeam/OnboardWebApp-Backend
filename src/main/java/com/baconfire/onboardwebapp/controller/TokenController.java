@@ -24,17 +24,10 @@ public class TokenController {
         Response response = new Response();
         String token = String.valueOf(tokenRequest.getToken());
         String email = String.valueOf(tokenRequest.getEmail());
-//        prepareResponse(response, true, "Token or Email is invalid");
+
         boolean valid = tokenRegisterServiceImpl.checkToken(token, email);
         prepareResponse(response, valid, "");
-        /*
-        if (valid) {
-            prepareResponse(response, true, "");
-        } else {
-            prepareResponse(response, false, "Token or Email is invalid");
-        }
 
-         */
         return  response;
     }
 
