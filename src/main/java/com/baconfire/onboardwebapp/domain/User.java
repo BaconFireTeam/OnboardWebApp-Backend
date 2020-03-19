@@ -29,8 +29,12 @@ public class User implements Serializable {
     @Column(name="Password")
     private String password;
 
-    @Column(name="PersonID")
-    private int personID;
+//    @Column(name="PersonID")
+//    private int personID;
+
+    @OneToOne
+    @JoinColumn(name = "PersonID")
+    private Person person;
 
     @Column(name="CreateDate")
     private String createDate;
@@ -38,6 +42,14 @@ public class User implements Serializable {
     @Column(name="ModificationDate")
     private String modificationDate;
 
+    public User(String username, String email, String password, Person person, String createDate, String modificationDate) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.person = person;
+        this.createDate = createDate;
+        this.modificationDate = modificationDate;
+    }
 //    public User() {
 //    }
 //

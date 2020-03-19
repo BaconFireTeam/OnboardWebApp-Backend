@@ -10,4 +10,8 @@ public interface UserDao {
     UserRole getUserRole(int id);
 
     Role getRole(int id);
+
+    boolean checkUsername(String username);
+
+    void registerUser(User user);
 }
