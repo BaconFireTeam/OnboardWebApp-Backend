@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/")
 public class TokenController {
-    private TokenRegisterService tokenRegisterService;
+    private TokenRegisterService tokenRegisterServiceImpl;
 
     @Autowired
-    public void setTokenRegisterService(TokenRegisterService tokenRegisterService) {
-        this.tokenRegisterService = tokenRegisterService;
+    public void setTokenRegisterService(TokenRegisterService tokenRegisterServiceImpl) {
+        this.tokenRegisterServiceImpl = tokenRegisterServiceImpl;
     }
 
     @PostMapping("/token")
@@ -24,18 +24,10 @@ public class TokenController {
         Response response = new Response();
         String token = String.valueOf(tokenRequest.getToken());
         String email = String.valueOf(tokenRequest.getEmail());
-        System.out.println(token + ", " + email);
-        prepareResponse(response, true, "Token or Email is invalid");
-//        boolean valid = tokenRegisterService.checkToken(token, email);
 
-        /*
-        if (valid) {
-            prepareResponse(response, true, "");
-        } else {
-            prepareResponse(response, false, "Token or Email is invalid");
-        }
+        boolean valid = tokenRegisterServiceImpl.checkToken(token, email);
+        prepareResponse(response, valid, "");
 
-         */
         return  response;
     }
 
