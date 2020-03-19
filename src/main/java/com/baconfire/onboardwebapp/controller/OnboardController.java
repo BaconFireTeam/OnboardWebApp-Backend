@@ -1,5 +1,6 @@
 package com.baconfire.onboardwebapp.controller;
 
+import com.baconfire.onboardwebapp.domain.Role;
 import com.baconfire.onboardwebapp.domain.User;
 import com.baconfire.onboardwebapp.restful.common.ServiceStatus;
 import com.baconfire.onboardwebapp.restful.domain.Response;
@@ -25,6 +26,10 @@ public class OnboardController {
         String username = userReq.getUsername();
         String password = userReq.getPassword();
         User user = onboardService.login(username, password);
+        if(user != null){
+            Role role = onboardService.getRole(user);
+            response.setRole(role);
+        }
         response.setUser(user);
         response.setServiceStatus(new ServiceStatus(">9000", true, "came from spring"));
         return response;
