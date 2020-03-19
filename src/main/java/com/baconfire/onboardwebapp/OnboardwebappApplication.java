@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 public class OnboardwebappApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(OnboardwebappApplication.class, args);
     }
 

@@ -1,20 +1,38 @@
 package com.baconfire.onboardwebapp.controller;
 
+import com.baconfire.onboardwebapp.domain.Role;
 import com.baconfire.onboardwebapp.domain.User;
+import com.baconfire.onboardwebapp.restful.common.ServiceStatus;
+import com.baconfire.onboardwebapp.restful.domain.Response;
+import com.baconfire.onboardwebapp.restful.domain.UserRequest;
+import com.baconfire.onboardwebapp.service.OnboardService;
 import com.baconfire.onboardwebapp.service.impl.OnboardServiceImpl;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/")
 public class OnboardController {
-    private OnboardServiceImpl onboardService;
+    private OnboardService onboardService;
+
+    @Autowired
+    public void setOnboardService(OnboardService onboardService) {
+        this.onboardService = onboardService;
+    }
 
     @PostMapping("/login")
-    public User login(String username, String password) {
-        return onboardService.login(username, password);
+    public Response login(@RequestBody UserRequest userReq) {
+        Response response = new Response();
+        String username = userReq.getUsername();
+        String password = userReq.getPassword();
+        User user = onboardService.login(username, password);
+        if(user != null){
+            Role role = onboardService.getRole(user);
+            response.setRole(role);
+        }
+        response.setUser(user);
+        response.setServiceStatus(new ServiceStatus(">9000", true, "came from spring"));
+        return response;
     }
 
     public void newUser(@RequestBody User user){
