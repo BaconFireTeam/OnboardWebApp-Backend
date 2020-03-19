@@ -34,29 +34,23 @@ public class TokenController {
         String email = String.valueOf(tokenRequest.getEmail());
 
         boolean valid = this.tokenRegisterServiceImpl.checkToken(token, email);
-        prepareResponse(response, valid, "");
+        prepareResponse(response, valid, "token and email doesn't match");
 
         return  response;
-    }
-
-    private void prepareResponse(Response response, boolean success, String errorMessage) {
-        response.setServiceStatus(new ServiceStatus(success ? "SUCCESS" : "FAILED", success, errorMessage));
     }
 
     @PostMapping("/setup")
     public Response register(@RequestBody UserRequest userRequest) {
         Response response = new Response();
-        String username = String.valueOf(userRequest.getUsername());
-        String password = String.valueOf(userRequest.getPassword());
-        String email = String.valueOf(userRequest.getEmail());
-//        System.out.println(username + ", " + password + ", " + email);
 
         boolean uniqueUsername = this.userServiceImpl.registerUser(userRequest);
-        if (!uniqueUsername) {
-           prepareResponse(response, false, "username has exist");
-        }
 
-//        this.userServiceImpl.registerUser(userRequest);
+        prepareResponse(response, uniqueUsername, "username has exist");
+
         return response;
+    }
+
+    private void prepareResponse(Response response, boolean success, String errorMessage) {
+        response.setServiceStatus(new ServiceStatus(success ? "SUCCESS" : "FAILED", success, success ? "" : errorMessage));
     }
 }
