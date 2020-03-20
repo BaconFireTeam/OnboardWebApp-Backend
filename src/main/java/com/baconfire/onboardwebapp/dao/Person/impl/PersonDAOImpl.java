@@ -14,6 +14,6 @@ public class PersonDAOImpl extends AbstractHibernateDAO<Person> implements Perso
 
     @Override
     public void savePerson(Person p) {
-        getCurrentSession().save(p);
+        getCurrentSession().merge(p);
     }
 }
