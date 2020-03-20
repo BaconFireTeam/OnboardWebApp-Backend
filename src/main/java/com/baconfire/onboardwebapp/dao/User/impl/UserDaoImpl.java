@@ -10,15 +10,17 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 @Repository("userDaoImpl")
-public class UserDaoImpl extends AbstractHibernateDAO implements UserDao {
+public class UserDaoImpl extends AbstractHibernateDAO<User> implements UserDao {
     public UserDaoImpl() {
+        setClazz(User.class);
     }
 
     @Override
     public User login(String username, String password) {
-        String hql = "FROM User WHERE UserName = :username AND Password = :password";
+        String hql = "FROM User WHERE username = :username AND password = :password";
         Session session = getCurrentSession();
         Query query = session.createQuery(hql);
         query.setParameter("username", username);
@@ -33,7 +35,7 @@ public class UserDaoImpl extends AbstractHibernateDAO implements UserDao {
 
     @Override
     public UserRole getUserRole(int id) {
-        String hql = "FROM UserRole WHERE UserID = :id";
+        String hql = "FROM UserRole WHERE userId = :id";
         Session session = getCurrentSession();
         Query query = session.createQuery(hql);
         query.setParameter("id", id);
@@ -47,7 +49,7 @@ public class UserDaoImpl extends AbstractHibernateDAO implements UserDao {
 
     @Override
     public Role getRole(int id) {
-        String hql = "FROM Role WHERE Id = :id";
+        String hql = "FROM Role WHERE id = :id";
         Session session = getCurrentSession();
         Query query = session.createQuery(hql);
         query.setParameter("id", id);
@@ -57,5 +59,18 @@ public class UserDaoImpl extends AbstractHibernateDAO implements UserDao {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public boolean checkUsername(String username) {
+        List users = getCurrentSession().createQuery("FROM User WHERE username =: un")
+                .setParameter("un", username)
+                .getResultList();
+        return users.size() == 0;
+    }
+
+    @Override
+    public void registerUser(User user) {
+        getCurrentSession().save(user);
     }
 }
