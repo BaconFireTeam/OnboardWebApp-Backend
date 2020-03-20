@@ -23,5 +23,5 @@ public class PersonRequest {
     private String ssn;
     private String dob;
 
-    private AddressRequest addressRequest;
+    private AddressRequest address;
 }
