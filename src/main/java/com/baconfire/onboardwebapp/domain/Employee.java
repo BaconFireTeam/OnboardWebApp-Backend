@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Setter
 @Getter
@@ -13,17 +14,9 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Employee")
-public class Employee implements Serializable {
+public class Employee extends Person implements Serializable  {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private int id;
-
-    @Column(name = "PersonID")
-    private String personID;
-
-    @Column(name = "Tile")
+    @Column(name = "Title")
     private String title;
 
     @Column(name = "ManagerID")
@@ -56,5 +49,7 @@ public class Employee implements Serializable {
     @Column(name = "HouseID")
     private String houseID;
 
+    @OneToMany(mappedBy = "employee")
+    private List<Contact> contactList;
 
 }
