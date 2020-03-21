@@ -22,7 +22,6 @@ public class SubmitFormController {
     public Response submitApplication(@RequestBody EmployeeRequest employee) {
         Response response = new Response();
         this.submitFormServiceImpl.submitForm(employee.getEmployee());
-//        System.out.println(employee.toString());
 
         return response;
 

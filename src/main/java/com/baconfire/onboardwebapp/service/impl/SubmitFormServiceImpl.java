@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class SubmitFormServiceImpl implements SubmitFormService {
     private PersonDAO personDaoImpl;
-    private EmployeeDAO employeeDapImpl;
+    private EmployeeDAO employeeDaoImpl;
     private ContactDAO contactDaoImpl;
 
     @Autowired
@@ -28,7 +28,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
     }
 
     @Autowired
-    public void setEmployeeDapImpl(EmployeeDAO employeeDapImpl) {
+    public void setEmployeeDapImpl(EmployeeDAO employeeDaoImpl) {
         this.employeeDapImpl = employeeDapImpl;
     }
 
