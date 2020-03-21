@@ -5,10 +5,7 @@ import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
 import com.baconfire.onboardwebapp.dao.Person.PersonDAO;
 import com.baconfire.onboardwebapp.domain.Employee;
 import com.baconfire.onboardwebapp.domain.Person;
-import com.baconfire.onboardwebapp.restful.domain.AddressRequest;
-import com.baconfire.onboardwebapp.restful.domain.DriverLicenseRequest;
-import com.baconfire.onboardwebapp.restful.domain.PersonRequest;
-import com.baconfire.onboardwebapp.restful.domain.VisaRequest;
+import com.baconfire.onboardwebapp.restful.domain.*;
 import com.baconfire.onboardwebapp.service.SubmitFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +16,7 @@ import java.util.List;
 @Service
 public class SubmitFormServiceImpl implements SubmitFormService {
     private PersonDAO personDaoImpl;
-    private EmployeeDAO employeeDapImpl;
+    private EmployeeDAO employeeDaoImpl;
     private ContactDAO contactDaoImpl;
 
     @Autowired
@@ -28,8 +25,8 @@ public class SubmitFormServiceImpl implements SubmitFormService {
     }
 
     @Autowired
-    public void setEmployeeDapImpl(EmployeeDAO employeeDapImpl) {
-        this.employeeDapImpl = employeeDapImpl;
+    public void setEmployeeDapImpl(EmployeeDAO employeeDaoImpl) {
+        this.employeeDaoImpl = employeeDaoImpl;
     }
 
     @Autowired
@@ -74,9 +71,13 @@ public class SubmitFormServiceImpl implements SubmitFormService {
 
         VisaRequest visaRequest = employeeInfo.getVisa();
 
-        List<AddressRequest> addressRequestList = employeeInfo.getAddressList();
+        String visaType = visaRequest.getType();
 
-         Person person = new Person(id, fn, ln, mn, email, cellphone, acphone, gender, ssn, dob);
-         this.personDaoImpl.savePerson(person);
+
+        List<AddressRequest> addressRequestList = employeeInfo.getAddressList();
+        List<ContactRequest> contactRequestList = employeeInfo.getContactList();
+
+        Person person = new Person(id, fn, ln, mn, email, cellphone, acphone, gender, ssn, dob);
+        this.personDaoImpl.savePerson(person);
     }
 }
