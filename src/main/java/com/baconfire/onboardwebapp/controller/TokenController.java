@@ -2,7 +2,7 @@ package com.baconfire.onboardwebapp.controller;
 
 import com.baconfire.onboardwebapp.restful.common.ServiceStatus;
 import com.baconfire.onboardwebapp.restful.domain.Response;
-import com.baconfire.onboardwebapp.restful.domain.TokenRequest;
+//import com.baconfire.onboardwebapp.restful.domain.TokenRequest;
 import com.baconfire.onboardwebapp.restful.domain.UserRequest;
 import com.baconfire.onboardwebapp.service.TokenRegisterService;
 import com.baconfire.onboardwebapp.service.UserService;
@@ -27,17 +27,17 @@ public class TokenController {
         this.userServiceImpl = userServiceImpl;
     }
 
-    @PostMapping("/token")
-    public Response checkToken(@RequestBody TokenRequest tokenRequest) {
-        Response response = new Response();
-        String token = String.valueOf(tokenRequest.getToken());
-        String email = String.valueOf(tokenRequest.getEmail());
-
-        boolean valid = this.tokenRegisterServiceImpl.checkToken(token, email);
-        prepareResponse(response, valid, "token and email doesn't match");
-
-        return  response;
-    }
+//    @PostMapping("/token")
+//    public Response checkToken(@RequestBody TokenRequest tokenRequest) {
+//        Response response = new Response();
+//        String token = String.valueOf(tokenRequest.getToken());
+//        String email = String.valueOf(tokenRequest.getEmail());
+//
+//        boolean valid = this.tokenRegisterServiceImpl.checkToken(token, email);
+//        prepareResponse(response, valid, "token and email doesn't match");
+//
+//        return  response;
+//    }
 
     @PostMapping("/setup")
     public Response register(@RequestBody UserRequest userRequest) {
