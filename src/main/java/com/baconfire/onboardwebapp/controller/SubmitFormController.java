@@ -21,7 +21,7 @@ public class SubmitFormController {
     @PostMapping("/onboard-application")
     public Response submitApplication(@RequestBody EmployeeRequest employee) {
         Response response = new Response();
-        this.submitFormServiceImpl.submitForm(employee.getEmployee());
+        boolean validForm = this.submitFormServiceImpl.submitForm(employee.getEmployee());
 
         return response;
     }

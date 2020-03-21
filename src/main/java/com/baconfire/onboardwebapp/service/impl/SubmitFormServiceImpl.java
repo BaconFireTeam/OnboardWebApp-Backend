@@ -3,8 +3,10 @@ package com.baconfire.onboardwebapp.service.impl;
 import com.baconfire.onboardwebapp.dao.Contact.ContactDAO;
 import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
 import com.baconfire.onboardwebapp.dao.Person.PersonDAO;
+import com.baconfire.onboardwebapp.dao.VisaStatus.VisaStatusDAO;
 import com.baconfire.onboardwebapp.domain.Employee;
 import com.baconfire.onboardwebapp.domain.Person;
+import com.baconfire.onboardwebapp.domain.VisaStatus;
 import com.baconfire.onboardwebapp.restful.domain.*;
 import com.baconfire.onboardwebapp.service.SubmitFormService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
     private PersonDAO personDaoImpl;
     private EmployeeDAO employeeDaoImpl;
     private ContactDAO contactDaoImpl;
+    private VisaStatusDAO visaStatusDAOImpl;
 
     @Autowired
     public void setPersonDaoImpl(PersonDAO personDaoImpl) {
@@ -25,7 +28,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
     }
 
     @Autowired
-    public void setEmployeeDapImpl(EmployeeDAO employeeDaoImpl) {
+    public void setEmployeeDaoImpl(EmployeeDAO employeeDaoImpl) {
         this.employeeDaoImpl = employeeDaoImpl;
     }
 
@@ -34,10 +37,16 @@ public class SubmitFormServiceImpl implements SubmitFormService {
         this.contactDaoImpl = contactDaoImpl;
     }
 
+    @Autowired
+    public void setVisaStatusDAOImpl(VisaStatusDAO visaStatusDAOImpl) {
+        this.visaStatusDAOImpl = visaStatusDAOImpl;
+    }
+
     @Override
     @Transactional
-    public void submitForm(PersonRequest employeeInfo) {
+    public boolean submitForm(PersonRequest employeeInfo) {
 //        System.out.println(employeeInfo.toString());
+
         int id = employeeInfo.getId();
         String fn = employeeInfo.getFirstname();
         String ln = employeeInfo.getLastname();
@@ -71,13 +80,21 @@ public class SubmitFormServiceImpl implements SubmitFormService {
 
         VisaRequest visaRequest = employeeInfo.getVisa();
 
-        String visaType = visaRequest.getType();
-
-
+        int visaID = this.visaStatusDAOImpl.getIDByType(visaRequest.getType());
+        if (visaID == -1) {
+            return false;
+        }
+        employee.setVisaStatusID(visaID);
+        employee.setVisaStartDate(visaRequest.getStartDate());
+        employee.setVisaEndDate(visaRequest.getEndDate());
+        /*
         List<AddressRequest> addressRequestList = employeeInfo.getAddressList();
         List<ContactRequest> contactRequestList = employeeInfo.getContactList();
 
         Person person = new Person(id, fn, ln, mn, email, cellphone, acphone, gender, ssn, dob);
         this.personDaoImpl.savePerson(person);
+         */
+
+        return true;
     }
 }
