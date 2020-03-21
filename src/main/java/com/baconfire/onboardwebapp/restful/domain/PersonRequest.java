@@ -1,6 +1,5 @@
 package com.baconfire.onboardwebapp.restful.domain;
 
-
 import lombok.*;
 
 import java.util.List;
@@ -23,5 +22,8 @@ public class PersonRequest {
     private String ssn;
     private String dob;
 
-    private AddressRequest addressRequest;
+    private VisaRequest visa;
+    private DriverLicenseRequest driverLicense;
+    private List<AddressRequest> addressList;
+    private ReferenceRequest reference;
 }

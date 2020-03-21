@@ -20,7 +20,7 @@ public class OnboardApplicationController {
     }
 
     @PostMapping("/onboard-application")
-    public Response submitApplication(@RequestBody PersonRequest personRequest) {
+    public Response submitApplication(@RequestBody EmployeeRequest personRequest) {
         Response response = new Response();
 //        this.personServiceImpl.savePersonInfo(personRequest);
 //        System.out.println(applicationRequest.getPerson().toString());

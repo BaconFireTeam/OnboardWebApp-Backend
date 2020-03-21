@@ -13,17 +13,9 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Employee")
-public class Employee implements Serializable {
+public class Employee extends Person implements Serializable  {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private int id;
-
-    @Column(name = "PersonID")
-    private String personID;
-
-    @Column(name = "Tile")
+    @Column(name = "Title")
     private String title;
 
     @Column(name = "ManagerID")
