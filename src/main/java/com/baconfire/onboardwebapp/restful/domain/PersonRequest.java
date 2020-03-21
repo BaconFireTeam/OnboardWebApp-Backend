@@ -1,5 +1,6 @@
 package com.baconfire.onboardwebapp.restful.domain;
 
+
 import lombok.*;
 
 import java.util.List;
