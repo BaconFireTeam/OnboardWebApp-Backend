@@ -24,6 +24,5 @@ public class SubmitFormController {
         this.submitFormServiceImpl.submitForm(employee.getEmployee());
 
         return response;
-
     }
 }

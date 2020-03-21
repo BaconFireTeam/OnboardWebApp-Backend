@@ -27,5 +27,5 @@ public class PersonRequest {
     private DriverLicenseRequest driverLicense;
     private List<AddressRequest> addressList;
     private ReferenceRequest reference;
-    private ContactRequest contactList;
+    private List<ContactRequest> contactList;
 }
