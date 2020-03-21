@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 
 public class DriverLicenseRequest {
+    private String car;
     private String licenseNum;
     private String expirationDate;
 }
