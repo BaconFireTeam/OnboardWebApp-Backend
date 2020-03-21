@@ -29,7 +29,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
 
     @Autowired
     public void setEmployeeDapImpl(EmployeeDAO employeeDaoImpl) {
-        this.employeeDapImpl = employeeDapImpl;
+        this.employeeDaoImpl = employeeDaoImpl;
     }
 
     @Autowired
