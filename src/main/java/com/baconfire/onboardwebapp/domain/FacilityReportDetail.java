@@ -21,7 +21,7 @@ public class FacilityReportDetail implements Serializable {
     private int id;
 
     @Column(name = "ReportID")
-    private String reportID;
+    private Integer reportID;
 
     @Column(name = "EmployeeID")
     private String employeeID;
