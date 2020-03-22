@@ -11,7 +11,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 
 @Entity
-@Table(name="Person")
+@Table(name = "Person")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person implements Serializable {
 
     @Id

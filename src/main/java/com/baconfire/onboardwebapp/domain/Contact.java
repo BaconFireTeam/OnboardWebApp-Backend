@@ -13,15 +13,12 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Contact")
-public class Contact implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private int id;
+public class Contact extends Person implements Serializable {
 
-    @Column(name = "PersonID")
-    private String personID;
+    @ManyToOne
+    @JoinColumn(name = "EmployeeID")
+    private Employee employee;
 
     @Column(name = "Relationship")
     private String relationship;
