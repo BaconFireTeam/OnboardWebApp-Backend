@@ -1,4 +1,4 @@
-package com.baconfire.onboardwebapp.dao.Employee.impl;
+package com.baconfire.onboardwebapp.dao.Employee.Impl;
 
 import com.baconfire.onboardwebapp.dao.AbstractHibernateDAO;
 //import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
