@@ -38,8 +38,17 @@ public class Address implements Serializable {
     @Column(name = "StateAbbr")
     private String stateAbbr;
 
-    @Column(name = "PersonID")
-    private String personID;
+    @ManyToOne
+    @JoinColumn(name = "Id")
+    private Person person;
 
+    public Address(String addressLine1, String addressLine2, String city, String zipCode, String stateName, String stateAbbr) {
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.city = city;
+        this.zipcode = zipCode;
+        this.stateName = stateName;
+        this.stateAbbr = stateAbbr;
+    }
 }
 

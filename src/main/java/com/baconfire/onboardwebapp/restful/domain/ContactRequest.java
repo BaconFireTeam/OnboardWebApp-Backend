@@ -3,6 +3,8 @@ package com.baconfire.onboardwebapp.restful.domain;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -10,10 +12,14 @@ import lombok.*;
 @NoArgsConstructor
 
 public class ContactRequest {
-    private int personId;
+    private String firstname;
+    private String lastname;
+    private String middlename;
+    private String email;
+    private String cellphone;
+    private String alternatephone;
+    private String gender;
+
+    private AddressRequest address;
     private String relationship;
-    private String title;
-    private String isReference;
-    private String isEmergency;
-    private String isLandlord;
 }

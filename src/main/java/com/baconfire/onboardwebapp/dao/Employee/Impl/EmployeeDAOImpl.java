@@ -7,4 +7,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class EmployeeDAOImpl extends AbstractHibernateDAO<Employee> implements EmployeeDAO {
+    @Override
+    public boolean saveEmployee(Employee employee) {
+        getCurrentSession().save(employee);
+
+        return true;
+    }
 }

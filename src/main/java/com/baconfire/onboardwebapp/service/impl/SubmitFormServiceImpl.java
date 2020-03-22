@@ -1,31 +1,26 @@
 package com.baconfire.onboardwebapp.service.impl;
 
+import com.baconfire.onboardwebapp.dao.Address.AddressDao;
 import com.baconfire.onboardwebapp.dao.Contact.ContactDAO;
 import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
 import com.baconfire.onboardwebapp.dao.Person.PersonDAO;
 import com.baconfire.onboardwebapp.dao.VisaStatus.VisaStatusDAO;
-import com.baconfire.onboardwebapp.domain.Employee;
-import com.baconfire.onboardwebapp.domain.Person;
-import com.baconfire.onboardwebapp.domain.VisaStatus;
+import com.baconfire.onboardwebapp.domain.*;
 import com.baconfire.onboardwebapp.restful.domain.*;
 import com.baconfire.onboardwebapp.service.SubmitFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class SubmitFormServiceImpl implements SubmitFormService {
-    private PersonDAO personDaoImpl;
     private EmployeeDAO employeeDaoImpl;
     private ContactDAO contactDaoImpl;
     private VisaStatusDAO visaStatusDAOImpl;
-
-    @Autowired
-    public void setPersonDaoImpl(PersonDAO personDaoImpl) {
-        this.personDaoImpl = personDaoImpl;
-    }
+    private AddressDao addressDaoImpl;
 
     @Autowired
     public void setEmployeeDaoImpl(EmployeeDAO employeeDaoImpl) {
@@ -42,59 +37,101 @@ public class SubmitFormServiceImpl implements SubmitFormService {
         this.visaStatusDAOImpl = visaStatusDAOImpl;
     }
 
+    @Autowired
+    public void setAddressDaoImpl(AddressDao addressDaoImpl) {
+        this.addressDaoImpl = addressDaoImpl;
+    }
+
     @Override
     @Transactional
     public boolean submitForm(PersonRequest employeeInfo) {
 //        System.out.println(employeeInfo.toString());
 
-        int id = employeeInfo.getId();
-        String fn = employeeInfo.getFirstname();
-        String ln = employeeInfo.getLastname();
-        String mn = employeeInfo.getMiddlename();
-        String email = employeeInfo.getEmail();
-        String cellphone = employeeInfo.getCellphone();
-        String acphone = employeeInfo.getAlternatephone();
-        String gender = employeeInfo.getGender();
-        String ssn = employeeInfo.getSsn();
-        String dob = employeeInfo.getDob();
-
         Employee employee = new Employee();
-        employee.setFirstname(fn);
-        employee.setMiddlename(mn);
-        employee.setLastname(ln);
-        employee.setEmail(email);
-        employee.setCellphone(cellphone);
-        employee.setAlternatephone(acphone);
-        employee.setGender(gender);
-        employee.setSSN(ssn);
-        employee.setDOB(dob);
-        employee.setTitle("employee");
-        employee.setManagerID("1");
-        employee.setStartDate("test");
-        employee.setEndDate("test");
 
+        // employee's person info
+        employee.setFirstname(employeeInfo.getFirstname());
+        employee.setMiddlename(employeeInfo.getMiddlename());
+        employee.setLastname(employeeInfo.getLastname());
+        employee.setEmail(employeeInfo.getEmail());
+        employee.setCellphone(employeeInfo.getCellphone());
+        employee.setAlternatephone(employeeInfo.getAlternatephone());
+        employee.setGender(employeeInfo.getGender());
+        employee.setSSN(employeeInfo.getSsn());
+        employee.setDOB(employeeInfo.getDob());
+        employee.setTitle("employee");
+        employee.setManagerID("not assign yet");
+        employee.setStartDate("not assign yet");
+        employee.setEndDate("not assign yet");
+
+        // employee car information
         DriverLicenseRequest driverLicenseRequest = employeeInfo.getDriverLicense();
         employee.setCar(driverLicenseRequest.getCar());
         employee.setDriverLisence(driverLicenseRequest.getLicenseNum());
         employee.setDriverLisence_ExpirationDate(driverLicenseRequest.getExpirationDate());
 
+        // employee visa information
         VisaRequest visaRequest = employeeInfo.getVisa();
 
         int visaID = this.visaStatusDAOImpl.getIDByType(visaRequest.getType());
+
         if (visaID == -1) {
             return false;
         }
+
         employee.setVisaStatusID(visaID);
         employee.setVisaStartDate(visaRequest.getStartDate());
         employee.setVisaEndDate(visaRequest.getEndDate());
-        /*
+
+        // employee address info
         List<AddressRequest> addressRequestList = employeeInfo.getAddressList();
-        List<ContactRequest> contactRequestList = employeeInfo.getContactList();
+        List<Address> addressList = new ArrayList<>();
 
-        Person person = new Person(id, fn, ln, mn, email, cellphone, acphone, gender, ssn, dob);
-        this.personDaoImpl.savePerson(person);
-         */
+        for (AddressRequest addressRequest : addressRequestList) {
+            Address address = new Address(addressRequest.getAddressLine1(), addressRequest.getAddressLine2()
+                    , addressRequest.getCity(), addressRequest.getZipCode()
+                    , addressRequest.getStateName(), addressRequest.getStateAbbr());
 
+            addressList.add(address);
+        }
+
+        employee.setAddressList(addressList);
+
+        // employee emergency contact
+        List<ContactRequest> contactRequestList = employeeInfo.getEmergencyContactList();
+        List<Contact> contactList = new ArrayList<>();
+        for (ContactRequest contactRequest : contactRequestList) {
+            Contact contact = new Contact();
+            contact.setFirstname(contactRequest.getFirstname());
+            contact.setMiddlename(contactRequest.getMiddlename());
+            contact.setLastname(contactRequest.getLastname());
+            contact.setEmail(contactRequest.getEmail());
+            contact.setCellphone(contactRequest.getCellphone());
+            contact.setAlternatephone(contactRequest.getAlternatephone());
+            contact.setGender(contactRequest.getGender());
+
+            AddressRequest contactAddressRequest = contactRequest.getAddress();
+            List<Address> contactAddressList = new ArrayList<>();
+            Address contactAddress = new Address(contactAddressRequest.getAddressLine1(), contactAddressRequest.getAddressLine2()
+                    , contactAddressRequest.getCity(), contactAddressRequest.getZipCode()
+                    , contactAddressRequest.getStateName(), contactAddressRequest.getStateAbbr());
+
+            contactAddressList.add(contactAddress);
+
+            contact.setAddressList(contactAddressList);
+
+            contact.setIsEmergency("Y");
+            contact.setRelationship(contactRequest.getRelationship());
+
+//            this.contactDaoImpl.saveContact(contact);
+
+            contact.setEmployee(employee);
+            contactList.add(contact);
+        }
+
+        employee.setContactList(contactList);
+
+        boolean validForm = this.employeeDaoImpl.saveEmployee(employee);
         return true;
     }
 }
