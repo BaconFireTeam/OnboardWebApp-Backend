@@ -1,9 +1,8 @@
-package com.baconfire.onboardwebapp.restful.domain;
+package com.baconfire.onboardwebapp.restful.domain.SubmitForm;
 
 
+import com.baconfire.onboardwebapp.restful.domain.SubmitForm.AddressRequest;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
