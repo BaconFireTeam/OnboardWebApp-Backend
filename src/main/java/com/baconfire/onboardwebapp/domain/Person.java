@@ -48,8 +48,6 @@ public class Person implements Serializable {
     @Column(name="DOB")
     private String DOB;
 
-    @OneToMany(mappedBy = "person")
-    private List<Address> addressList;
 
     public Person(String firstName, String lastName, String middleName, String email, String cellPhone, String alternatePhone, String gender, String ssn, String dob) {
         this.firstname = firstName;

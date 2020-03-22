@@ -36,6 +36,8 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     public String storeFile(MultipartFile file) {
         // Normalize file name
+
+        // surfix
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
@@ -46,7 +48,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
             // Copy file to the target location (Replacing existing file with the same name)
 
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
+            Path targetLocation = this.fileStorageLocation.resolve("OnboardingDocuments/" + fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             return fileName;

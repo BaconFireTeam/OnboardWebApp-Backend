@@ -2,7 +2,7 @@ package com.baconfire.onboardwebapp.controller;
 
 import com.baconfire.onboardwebapp.restful.domain.*;
 import com.baconfire.onboardwebapp.restful.domain.SubmitForm.EmployeeRequest;
-import com.baconfire.onboardwebapp.service.SubmitFormService;
+import com.baconfire.onboardwebapp.service.Employee.SubmitFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +22,7 @@ public class SubmitFormController {
     @PostMapping("/onboard-application")
     public Response submitApplication(@RequestBody EmployeeRequest employee) {
         Response response = new Response();
+
         boolean validForm = this.submitFormServiceImpl.submitForm(employee.getEmployee());
 
         return response;

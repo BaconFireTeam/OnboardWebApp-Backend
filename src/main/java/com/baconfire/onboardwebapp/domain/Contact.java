@@ -13,12 +13,10 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Contact")
-
 public class Contact extends Person implements Serializable {
 
-    @ManyToOne
-    @JoinColumn(name = "EmployeeID")
-    private Employee employee;
+    @Column(name = "EmployeeID")
+    private int employeeID;
 
     @Column(name = "Relationship")
     private String relationship;
@@ -34,5 +32,6 @@ public class Contact extends Person implements Serializable {
 
     @Column(name = "isLandlord")
     private String isLandlord;
+
 
 }

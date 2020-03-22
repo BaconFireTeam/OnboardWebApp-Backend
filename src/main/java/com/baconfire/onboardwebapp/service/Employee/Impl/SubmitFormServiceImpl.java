@@ -1,12 +1,11 @@
-package com.baconfire.onboardwebapp.service.impl;
+package com.baconfire.onboardwebapp.service.Employee.Impl;
 
-import com.baconfire.onboardwebapp.dao.Address.AddressDao;
-import com.baconfire.onboardwebapp.dao.Contact.ContactDAO;
 import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
 import com.baconfire.onboardwebapp.dao.VisaStatus.VisaStatusDAO;
 import com.baconfire.onboardwebapp.domain.*;
 import com.baconfire.onboardwebapp.restful.domain.SubmitForm.*;
-import com.baconfire.onboardwebapp.service.SubmitFormService;
+import com.baconfire.onboardwebapp.service.Employee.SaveEmployeeService;
+import com.baconfire.onboardwebapp.service.Employee.SubmitFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,18 +16,13 @@ import java.util.List;
 @Service
 public class SubmitFormServiceImpl implements SubmitFormService {
     private EmployeeDAO employeeDaoImpl;
-    private ContactDAO contactDaoImpl;
     private VisaStatusDAO visaStatusDAOImpl;
-    private AddressDao addressDaoImpl;
+
+    private SaveEmployeeService saveEmployeeServiceImpl;
 
     @Autowired
     public void setEmployeeDaoImpl(EmployeeDAO employeeDaoImpl) {
         this.employeeDaoImpl = employeeDaoImpl;
-    }
-
-    @Autowired
-    public void setContactDaoImpl(ContactDAO contactDaoImpl) {
-        this.contactDaoImpl = contactDaoImpl;
     }
 
     @Autowired
@@ -37,15 +31,13 @@ public class SubmitFormServiceImpl implements SubmitFormService {
     }
 
     @Autowired
-    public void setAddressDaoImpl(AddressDao addressDaoImpl) {
-        this.addressDaoImpl = addressDaoImpl;
+    public void setSaveEmployeeServiceImpl(SaveEmployeeService saveEmployeeServiceImpl) {
+        this.saveEmployeeServiceImpl = saveEmployeeServiceImpl;
     }
 
     @Override
     @Transactional
     public boolean submitForm(PersonRequest employeeInfo) {
-//        System.out.println(employeeInfo.toString());
-
         Employee employee = new Employee();
 
         // employee's person info
@@ -91,46 +83,23 @@ public class SubmitFormServiceImpl implements SubmitFormService {
                     , addressRequest.getCity(), addressRequest.getZipCode()
                     , addressRequest.getStateName(), addressRequest.getStateAbbr());
 
+//            address.setPerson(employee);
             addressList.add(address);
         }
 
-        employee.setAddressList(addressList);
+//        employee.setAddressList(addressList);
 
         // employee emergency contact
         List<ContactRequest> contactRequestList = employeeInfo.getEmergencyContactList();
-        List<Contact> contactList = new ArrayList<>();
-        for (ContactRequest contactRequest : contactRequestList) {
-            Contact contact = new Contact();
-            contact.setFirstname(contactRequest.getFirstname());
-            contact.setMiddlename(contactRequest.getMiddlename());
-            contact.setLastname(contactRequest.getLastname());
-            contact.setEmail(contactRequest.getEmail());
-            contact.setCellphone(contactRequest.getCellphone());
-            contact.setAlternatephone(contactRequest.getAlternatephone());
-            contact.setGender(contactRequest.getGender());
 
-            AddressRequest contactAddressRequest = contactRequest.getAddress();
-            List<Address> contactAddressList = new ArrayList<>();
-            Address contactAddress = new Address(contactAddressRequest.getAddressLine1(), contactAddressRequest.getAddressLine2()
-                    , contactAddressRequest.getCity(), contactAddressRequest.getZipCode()
-                    , contactAddressRequest.getStateName(), contactAddressRequest.getStateAbbr());
 
-            contactAddressList.add(contactAddress);
 
-            contact.setAddressList(contactAddressList);
+//        employee.setContactList(contactList);
 
-            contact.setIsEmergency("Y");
-            contact.setRelationship(contactRequest.getRelationship());
-
-//            this.contactDaoImpl.saveContact(contact);
-
-            contact.setEmployee(employee);
-            contactList.add(contact);
-        }
-
-        employee.setContactList(contactList);
-
-        boolean validForm = this.employeeDaoImpl.saveEmployee(employee);
+        this.saveEmployeeServiceImpl.saveEmployee(employee, addressList, contactRequestList);
+        // boolean validForm = this.employeeDaoImpl.saveEmployee(employee);
+        // get personID or EmployeeID
+        // save addressList , contactList
         return true;
     }
 }

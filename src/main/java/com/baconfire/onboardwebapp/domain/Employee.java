@@ -51,8 +51,4 @@ public class Employee extends Person implements Serializable  {
 
     @Column(name = "HouseID")
     private String houseID;
-
-    @OneToMany(mappedBy = "employee")
-    private List<Contact> contactList;
-
 }
