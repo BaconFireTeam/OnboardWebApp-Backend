@@ -23,5 +23,9 @@ public class PersonRequest {
     private String ssn;
     private String dob;
 
-    private AddressRequest address;
+    private VisaRequest visa;
+    private DriverLicenseRequest driverLicense;
+    private List<AddressRequest> addressList;
+    private ReferenceRequest reference;
+    private List<ContactRequest> contactList;
 }
