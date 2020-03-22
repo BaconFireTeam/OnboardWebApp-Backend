@@ -1,3 +1,4 @@
+
 package com.baconfire.onboardwebapp.service.impl;
 
 import com.baconfire.onboardwebapp.dao.Contact.ContactDAO;
@@ -81,3 +82,4 @@ public class SubmitFormServiceImpl implements SubmitFormService {
         this.personDaoImpl.savePerson(person);
     }
 }
+
