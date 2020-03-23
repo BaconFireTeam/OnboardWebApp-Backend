@@ -59,4 +59,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         return applicationList;
     }
+
+    @Override
+    @Transactional
+    public void updateApplication(int id, String status) {
+        ApplicationWorkFlow applicationWorkFlow = applicationWorkFlowDAOImpl.getById(id);
+        applicationWorkFlow.setStatus(status);
+        applicationWorkFlowDAOImpl.updateApplication(applicationWorkFlow);
+    }
 }

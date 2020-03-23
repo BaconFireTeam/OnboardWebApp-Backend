@@ -42,4 +42,9 @@ public class HRController {
         List<ApplicationResponse> applicationList = applicationServiceImpl.checkAllApplications();
         return applicationList;
     }
+
+    @PostMapping(value = "/application", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateApplication(int appId, String status){
+
+    }
 }

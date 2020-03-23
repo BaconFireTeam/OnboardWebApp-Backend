@@ -9,4 +9,6 @@ public interface ApplicationService {
     ApplicationResponse checkApplicationsById(int employeeId);
 
     List<ApplicationResponse> checkAllApplications();
+
+    void updateApplication(int id, String status);
 }

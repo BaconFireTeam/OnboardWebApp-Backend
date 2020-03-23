@@ -41,4 +41,17 @@ public class EmployeeController {
         ApplicationResponse applicationResponse = applicationServiceImpl.checkApplicationsById(vsr.getEmployeeId());
         return applicationResponse; //need to send response check if open or pending
     }
+
+    @PostMapping(value = "/application/open", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ApplicationWorkFlow openApplication(int employeeId) {
+        ApplicationWorkFlow applicationWorkFlow = new ApplicationWorkFlow();
+        applicationWorkFlow.setEmployeeID(employeeId);
+        applicationWorkFlow.setStatus("open");
+return applicationWorkFlow;
+    }
+
+    @PostMapping(value = "/application/submit", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void submitApplication() {
+
+    }
 }
