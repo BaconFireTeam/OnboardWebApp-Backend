@@ -70,7 +70,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
             return false;
         }
 
-        employee.setVisaStatusID(visaID);
+        employee.setVisaStatusId(visaID);
         employee.setVisaStartDate(visaRequest.getStartDate());
         employee.setVisaEndDate(visaRequest.getEndDate());
 

@@ -35,7 +35,7 @@ public class Employee extends Person implements Serializable  {
     private String car;
 
     @Column(name = "VisaStatusID")
-    private int visaStatusID;
+    private int visaStatusId;
 
     @Column(name = "VisaStartDate")
     private String visaStartDate;
