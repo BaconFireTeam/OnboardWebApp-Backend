@@ -2,7 +2,6 @@ package com.baconfire.onboardwebapp.service.impl;
 
 import com.baconfire.onboardwebapp.constant.VisaStatusMessage;
 import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
-import com.baconfire.onboardwebapp.dao.Employee.impl.EmployeeDAOImpl;
 import com.baconfire.onboardwebapp.domain.Employee;
 import com.baconfire.onboardwebapp.restful.domain.VisaStatusResponse;
 import com.baconfire.onboardwebapp.service.VisaStatusService;
@@ -23,7 +22,7 @@ public class VisaStatusServiceImpl implements VisaStatusService, VisaStatusMessa
     private EmployeeDAO employeeDao;
 
     @Autowired
-    public void setEmployeeDao(EmployeeDAO employeeDao) {
+    public void setEmployeeDaoImpl(EmployeeDAO employeeDao) {
         this.employeeDao = employeeDao;
     }
 
@@ -31,7 +30,7 @@ public class VisaStatusServiceImpl implements VisaStatusService, VisaStatusMessa
     @Transactional
     public VisaStatusResponse checkStatus(int employeeId) throws ParseException {
         VisaStatusResponse visaStatusResponse = new VisaStatusResponse();
-        Employee employee = employeeDao.getEmployeeById(employeeId);
+        Employee employee = employeeDao.getEmployeeByID(employeeId);
         visaStatusResponse.setEmployee(employee);
         if(employee.getVisaStatusId() > 7) { //only handles opt steps
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
