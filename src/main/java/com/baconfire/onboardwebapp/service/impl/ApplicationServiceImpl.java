@@ -32,7 +32,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     @Transactional
     public ApplicationResponse checkApplicationsById(int employeeId) {
-        Employee employee = employeeDAOImpl.getEmployeeById(employeeId);
+        Employee employee = employeeDAOImpl.getEmployeeByID(employeeId);
         String name = employee.getFirstname() + " " + employee.getLastname();
         ApplicationResponse applicationResponse = new ApplicationResponse();
         applicationResponse.setEmployeeName(name);
