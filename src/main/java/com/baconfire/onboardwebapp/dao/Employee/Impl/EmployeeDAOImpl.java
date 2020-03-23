@@ -2,7 +2,9 @@ package com.baconfire.onboardwebapp.dao.Employee.Impl;
 
 import com.baconfire.onboardwebapp.dao.AbstractHibernateDAO;
 import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
+import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
 import com.baconfire.onboardwebapp.domain.Employee;
+import net.bytebuddy.description.type.TypeList;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,7 @@ public class EmployeeDAOImpl extends AbstractHibernateDAO<Employee> implements E
         setClazz(Employee.class);
     }
 
+    @Override
     public List<Employee> getAllEmployees() {
         String hql = "FROM Employee";
         Session session = getCurrentSession();

@@ -5,6 +5,7 @@ import com.baconfire.onboardwebapp.domain.Employee;
 import java.util.List;
 
 public interface EmployeeDAO {
+
     int saveEmployee(Employee employee);
 
     Employee getEmployeeByID(int employeeID);
