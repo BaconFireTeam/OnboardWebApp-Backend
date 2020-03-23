@@ -23,8 +23,8 @@ public class VisaStatus implements Serializable {
     @Column(name = "VisaType")
     private String visaType;
 
-    @Column(name = "Actice")
-    private String actice;
+    @Column(name = "Active")
+    private String active;
 
     @Column(name = "ModificationDate")
     private String modificationDate;

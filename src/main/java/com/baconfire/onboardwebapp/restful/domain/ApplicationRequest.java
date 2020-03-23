@@ -1,7 +1,7 @@
 package com.baconfire.onboardwebapp.restful.domain;
 
-import com.baconfire.onboardwebapp.domain.Address;
-import com.baconfire.onboardwebapp.domain.Person;
+import com.baconfire.onboardwebapp.restful.domain.SubmitForm.AddressRequest;
+import com.baconfire.onboardwebapp.restful.domain.SubmitForm.PersonRequest;
 import lombok.*;
 
 @Getter
