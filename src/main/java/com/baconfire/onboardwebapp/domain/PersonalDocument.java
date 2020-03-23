@@ -21,7 +21,10 @@ public class PersonalDocument implements Serializable {
     private int id;
 
     @Column(name = "EmployeeID")
-    private String employeeID;
+    private int employeeID;
+
+    @Column(name = "Type")
+    private String type;
 
     @Column(name = "Path")
     private String path;
@@ -32,11 +35,11 @@ public class PersonalDocument implements Serializable {
     @Column(name = "Comment")
     private  String comment;
 
-    @Column(name = "CreatedDate")
-    private String createdDate;
+    @Column(name = "CreateDate")
+    private String createDate;
 
-    @Column(name = "CreatedBy")
-    private String createdBy;
+    @Column(name = "CreateBy")
+    private String createBy;
 
 }
 

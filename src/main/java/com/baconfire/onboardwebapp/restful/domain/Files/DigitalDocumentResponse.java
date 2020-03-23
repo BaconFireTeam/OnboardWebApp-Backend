@@ -4,13 +4,13 @@ import lombok.*;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 
-public class UploadFileResponse {
-    private int employeeID;
+public class DigitalDocumentResponse {
     private String type;
-    private String fileName;
-    private String fileDownloadUri;
+    private boolean required;
+    private String templateLocation;
+    private String Description;
 }

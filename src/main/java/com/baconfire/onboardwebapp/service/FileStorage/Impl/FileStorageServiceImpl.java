@@ -17,6 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
@@ -34,11 +36,16 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
     }
 
-    public String storeFile(MultipartFile file) {
+    public String storeFile(MultipartFile file, int employeeID, String type) {
         // Normalize file name
-
         // surfix
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String eid = "eid" + employeeID;
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy-HH-mm-ss");
+        Date date = new Date();
+        String curDate = formatter.format(date);
+
+        String fileName = eid + "_" + curDate + "_" + StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
             // Check if the file's name contains invalid characters
@@ -47,8 +54,8 @@ public class FileStorageServiceImpl implements FileStorageService {
             }
 
             // Copy file to the target location (Replacing existing file with the same name)
-
-            Path targetLocation = this.fileStorageLocation.resolve("OnboardingDocuments/" + fileName);
+            String folderType = "Onboarding".equals(type) ? "OnboardingDocuments/" : "OPTDocuments/";
+            Path targetLocation = this.fileStorageLocation.resolve(folderType + fileName);
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             return fileName;

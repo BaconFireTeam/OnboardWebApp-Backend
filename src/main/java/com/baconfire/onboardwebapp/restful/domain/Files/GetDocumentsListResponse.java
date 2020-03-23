@@ -16,5 +16,6 @@ import java.util.*;
 
 public class GetDocumentsListResponse {
     private ServiceStatus serviceStatus;
-    private List<UploadFileResponse> uploadFileResponses;
+    private List<UploadFileResponse> uploadFileResponseList;
+    private List<DigitalDocumentResponse> digitalDocumentResponseList;
 }

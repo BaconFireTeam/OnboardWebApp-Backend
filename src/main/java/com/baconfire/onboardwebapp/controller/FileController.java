@@ -1,9 +1,9 @@
 package com.baconfire.onboardwebapp.controller;
 
-import com.baconfire.onboardwebapp.dao.DigitalDocument.DigitalDocumentDAO;
-import com.baconfire.onboardwebapp.dao.PersonalDocument.PersonalDocumentDAO;
 import com.baconfire.onboardwebapp.domain.DigitalDocument;
 import com.baconfire.onboardwebapp.domain.PersonalDocument;
+import com.baconfire.onboardwebapp.restful.common.ServiceStatus;
+import com.baconfire.onboardwebapp.restful.domain.Files.DigitalDocumentResponse;
 import com.baconfire.onboardwebapp.restful.domain.Files.GetDocumentsListResponse;
 import com.baconfire.onboardwebapp.restful.domain.Files.UploadFileResponse;
 import com.baconfire.onboardwebapp.service.FileStorage.DigitalDocumentService;
@@ -12,21 +12,12 @@ import com.baconfire.onboardwebapp.service.FileStorage.PersonalDocumentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-
 
 @RestController
 public class FileController {
@@ -52,65 +43,78 @@ public class FileController {
     }
 
     @PostMapping("/uploadFile")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        String fileName = fileStorageServiceImpl.storeFile(file);
+    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file,
+                                         @RequestParam("employeeID") int employeeID,
+                                         @RequestParam("type") String type) {
+        String fileName = fileStorageServiceImpl.storeFile(file, employeeID, type);
+
+        String folderType = "Onboarding".equals(type) ? "OnboardingDocuments/" : "OPTDocuments/";
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("Documents/PersonalDocuments/" + folderType)
                 .path(fileName)
                 .toUriString();
 
-//        this.personalDocumentServiceImpl.storeFile(fileName, fileDownloadUri);
+        this.personalDocumentServiceImpl.storeFile(employeeID, type, fileDownloadUri, fileName);
 
-        return new UploadFileResponse(fileName, fileDownloadUri,
-                file.getContentType(), file.getSize(), true);
+        return new UploadFileResponse(employeeID, type, fileName, fileDownloadUri);
     }
 
     @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files,
+                                                        @RequestParam("employeeID") int employeeID,
+                                                        @RequestParam("type") String type) {
         return Arrays.asList(files)
                 .stream()
-                .map(file -> uploadFile(file))
+                .map(file -> uploadFile(file, employeeID, type))
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-        // Load file as Resource
-        Resource resource = fileStorageServiceImpl.loadFileAsResource(fileName);
-
-        // Try to determine file's content type
-        String contentType = null;
-        try {
-            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            logger.info("Could not determine file type.");
-        }
-
-        // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                .body(resource);
-    }
-
-    @PostMapping("/employee/onboarding/getFiles")
-    public GetDocumentsListResponse getFiles() {
-        // request contains employee id
-        // personal document table
-        // table: title, path
+    @PostMapping("/employee/getPersonalDocument")
+    public GetDocumentsListResponse getFiles(@RequestParam("employeeID") int employeeID,
+                                             @RequestParam("type") String type) {
         GetDocumentsListResponse response = new GetDocumentsListResponse();
+        List<PersonalDocument> personalDocumentList = this.personalDocumentServiceImpl.getFilesByIDAndType(employeeID, type);
 
+        if (personalDocumentList.size() == 0) {
+            response.setServiceStatus(new ServiceStatus("401", false, "Can't find employee"));
+        } else {
+            response.setServiceStatus(new ServiceStatus("200", true, ""));
+        }
+
+        List<UploadFileResponse> uploadFileResponseList = new ArrayList<>();
+        personalDocumentList.forEach(personalDocument -> {
+            uploadFileResponseList.add(new UploadFileResponse(employeeID, personalDocument.getType()
+                                    , personalDocument.getTitle()
+                                    , personalDocument.getPath()));
+        });
+
+        response.setUploadFileResponseList(uploadFileResponseList);
         return response;
     }
 
     @GetMapping("/getDigitalDocument")
-    public GetDocumentsListResponse getDigitalDocuments() {
+    public GetDocumentsListResponse getDigitalDocuments(@RequestParam("type") String type) {
         GetDocumentsListResponse response = new GetDocumentsListResponse();
 
+        List<DigitalDocument> digitalDocumentList = this.digitalDocumentServiceImpl.getFileByType(type);
+
+        if (digitalDocumentList.size() == 0) {
+            response.setServiceStatus(new ServiceStatus("401", false, "Can't find file"));
+        } else {
+            response.setServiceStatus(new ServiceStatus("200", true, ""));
+        }
+
+        List<DigitalDocumentResponse> digitalDocumentResponseList = new ArrayList<>();
+
+        digitalDocumentList.forEach(digitalDocument -> {
+            digitalDocumentResponseList.add(new DigitalDocumentResponse(digitalDocument.getType()
+                    , "Y".equals(digitalDocument.getRequired())
+                    , digitalDocument.getTemplateLocation()
+                    , digitalDocument.getDescription()));
+        });
+
+        response.setDigitalDocumentResponseList(digitalDocumentResponseList);
         return response;
     }
 }
