@@ -2,7 +2,9 @@
 package com.baconfire.onboardwebapp.service.impl;
 
 import com.baconfire.onboardwebapp.dao.Contact.ContactDAO;
+import com.baconfire.onboardwebapp.dao.Contact.impl.ContactDAOImpl;
 import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
+import com.baconfire.onboardwebapp.dao.Employee.impl.EmployeeDAOImpl;
 import com.baconfire.onboardwebapp.dao.Person.PersonDAO;
 import com.baconfire.onboardwebapp.domain.Employee;
 import com.baconfire.onboardwebapp.domain.Person;
@@ -26,7 +28,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
     }
 
     @Autowired
-    public void setEmployeeDapImpl(EmployeeDAO employeeDaoImpl) {
+    public void setEmployeeDao(EmployeeDAO employeeDaoImpl) {
         this.employeeDaoImpl = employeeDaoImpl;
     }
 

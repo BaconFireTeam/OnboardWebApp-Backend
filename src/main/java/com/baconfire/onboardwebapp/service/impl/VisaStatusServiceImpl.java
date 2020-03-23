@@ -1,6 +1,7 @@
 package com.baconfire.onboardwebapp.service.impl;
 
 import com.baconfire.onboardwebapp.constant.VisaStatusMessage;
+import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
 import com.baconfire.onboardwebapp.dao.Employee.impl.EmployeeDAOImpl;
 import com.baconfire.onboardwebapp.domain.Employee;
 import com.baconfire.onboardwebapp.restful.domain.VisaStatusResponse;
@@ -19,10 +20,10 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class VisaStatusServiceImpl implements VisaStatusService, VisaStatusMessage {
 
-    private EmployeeDAOImpl employeeDao;
+    private EmployeeDAO employeeDao;
 
     @Autowired
-    public void setEmployeeDao(EmployeeDAOImpl employeeDao) {
+    public void setEmployeeDao(EmployeeDAO employeeDao) {
         this.employeeDao = employeeDao;
     }
 

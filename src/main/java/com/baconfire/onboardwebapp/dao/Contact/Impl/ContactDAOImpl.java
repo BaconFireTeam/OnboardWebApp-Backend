@@ -7,5 +7,5 @@ import com.baconfire.onboardwebapp.domain.Contact;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ContactDAOImpl extends AbstractHibernateDAO<Contact> /*implements ContactDAO*/ {
+public class ContactDAOImpl extends AbstractHibernateDAO<Contact> implements ContactDAO {
 }

@@ -1,19 +1,21 @@
-package com.baconfire.onboardwebapp.dao.Employee.Impl;
+package com.baconfire.onboardwebapp.dao.Employee.impl;
 
 import com.baconfire.onboardwebapp.dao.AbstractHibernateDAO;
 //import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
+import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
 import com.baconfire.onboardwebapp.domain.Employee;
-import net.bytebuddy.description.type.TypeList;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import javax.persistence.OneToOne;
 import java.util.List;
 
 @Repository("employeeDAOImpl")
-public class EmployeeDAOImpl extends AbstractHibernateDAO<Employee> {
+public class EmployeeDAOImpl extends AbstractHibernateDAO<Employee> implements EmployeeDAO {
 
+    @Override
     public List<Employee> getAllEmployees() {
         String hql = "FROM Employee";
         Session session = getCurrentSession();
@@ -26,6 +28,7 @@ public class EmployeeDAOImpl extends AbstractHibernateDAO<Employee> {
         }
     }
 
+    @Override
     public Employee getEmployeeById(int id) {
         String hql = "FROM Employee WHERE id = :id";
         Session session = getCurrentSession();
