@@ -29,10 +29,12 @@ public class HRController {
         this.applicationServiceImpl = applicationServiceImpl;
     }
 
-    @GetMapping(value = "/visa-status", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<VisaStatusResponse> getVisaStatus() throws ParseException {
+    @GetMapping(value = "/visa-status")
+    public VisaStatusResponse getVisaStatus() throws ParseException {
+        VisaStatusResponse visaStatusResponse = new VisaStatusResponse();
         List<VisaStatusResponse> visaList = visaStatusService.checkAllStatus();
-        return visaList;
+        visaStatusResponse.setStatusList(visaList);
+        return visaStatusResponse;
     }
 
     @GetMapping(value = "/application", consumes = MediaType.APPLICATION_JSON_VALUE)
