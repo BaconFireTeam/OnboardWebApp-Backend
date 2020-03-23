@@ -42,16 +42,21 @@ public class EmployeeController {
         return applicationResponse; //need to send response check if open or pending
     }
 
-    @PostMapping(value = "/application/open", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ApplicationWorkFlow openApplication(int employeeId) {
-        ApplicationWorkFlow applicationWorkFlow = new ApplicationWorkFlow();
-        applicationWorkFlow.setEmployeeID(employeeId);
-        applicationWorkFlow.setStatus("open");
-return applicationWorkFlow;
+    @PostMapping(value = "/application-open", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ApplicationResponse openApplication(@RequestBody VisaStatusRequest vsr) {
+        System.out.println("opening application");
+        ApplicationResponse applicationResponse = new ApplicationResponse();
+        applicationResponse.setOpenOrPending(true);
+        applicationResponse.setApplicationWorkFlow(applicationServiceImpl.openApplication(vsr.getEmployeeId()));
+        return applicationResponse;
     }
 
-    @PostMapping(value = "/application/submit", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void submitApplication() {
-
+    @PostMapping(value = "/application-submit", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ApplicationResponse submitApplication(@RequestParam("applicationId") int appId) {
+        ApplicationResponse applicationResponse = new ApplicationResponse();
+        applicationResponse.setOpenOrPending(true);
+        ApplicationWorkFlow applicationWorkFlow = applicationServiceImpl.updateApplication(appId, "pending");
+        applicationResponse.setApplicationWorkFlow(applicationWorkFlow);
+        return applicationResponse;
     }
 }
