@@ -3,9 +3,7 @@ package com.baconfire.onboardwebapp.controller;
 import com.baconfire.onboardwebapp.domain.DigitalDocument;
 import com.baconfire.onboardwebapp.domain.PersonalDocument;
 import com.baconfire.onboardwebapp.restful.common.ServiceStatus;
-import com.baconfire.onboardwebapp.restful.domain.Files.DigitalDocumentResponse;
-import com.baconfire.onboardwebapp.restful.domain.Files.GetDocumentsListResponse;
-import com.baconfire.onboardwebapp.restful.domain.Files.UploadFileResponse;
+import com.baconfire.onboardwebapp.restful.domain.Files.*;
 import com.baconfire.onboardwebapp.service.FileStorage.DigitalDocumentService;
 import com.baconfire.onboardwebapp.service.FileStorage.FileStorageService;
 import com.baconfire.onboardwebapp.service.FileStorage.PersonalDocumentService;
@@ -43,9 +41,11 @@ public class FileController {
     }
 
     @PostMapping("/uploadFile")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file,
-                                         @RequestParam("employeeID") int employeeID,
-                                         @RequestParam("type") String type) {
+    public UploadFileResponse uploadFile(@RequestBody SingleFileRequest singleFileRequest) {
+        MultipartFile file = singleFileRequest.getFile();
+        int employeeID = singleFileRequest.getEmployeeID();
+        String type = singleFileRequest.getType();
+
         String fileName = fileStorageServiceImpl.storeFile(file, employeeID, type);
 
         String folderType = "Onboarding".equals(type) ? "OnboardingDocuments/" : "OPTDocuments/";
@@ -61,12 +61,14 @@ public class FileController {
     }
 
     @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files,
-                                                        @RequestParam("employeeID") int employeeID,
-                                                        @RequestParam("type") String type) {
+    public List<UploadFileResponse> uploadMultipleFiles(@RequestBody MultiFilesRequest multiFilesRequest) {
+        MultipartFile[] files = multiFilesRequest.getFiles();
+        int employeeID = multiFilesRequest.getEmployeeID();
+        String type = multiFilesRequest.getType();
+
         return Arrays.asList(files)
                 .stream()
-                .map(file -> uploadFile(file, employeeID, type))
+                .map(file -> uploadFile(new SingleFileRequest(file, employeeID, type)))
                 .collect(Collectors.toList());
     }
 
