@@ -1,7 +1,9 @@
 package com.baconfire.onboardwebapp.service.impl;
 
 import com.baconfire.onboardwebapp.constant.VisaStatusMessage;
+import com.baconfire.onboardwebapp.dao.ApplicationWorkFlow.ApplicationWorkFlowDAO;
 import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
+import com.baconfire.onboardwebapp.domain.ApplicationWorkFlow;
 import com.baconfire.onboardwebapp.domain.Employee;
 import com.baconfire.onboardwebapp.restful.domain.VisaStatusResponse;
 import com.baconfire.onboardwebapp.service.VisaStatusService;
@@ -21,10 +23,17 @@ public class VisaStatusServiceImpl implements VisaStatusService, VisaStatusMessa
 
     private EmployeeDAO employeeDao;
 
+//    private ApplicationWorkFlowDAO applicationWorkFlowDao;
+
     @Autowired
-    public void setEmployeeDaoImpl(EmployeeDAO employeeDao) {
+    public void setEmployeeDao(EmployeeDAO employeeDao) {
         this.employeeDao = employeeDao;
     }
+
+//    @Autowired
+//    public void setApplicationWorkFlowDao(ApplicationWorkFlowDAO applicationWorkFlowDao) {
+//        this.applicationWorkFlowDao = applicationWorkFlowDao;
+//    }
 
     @Override
     @Transactional
