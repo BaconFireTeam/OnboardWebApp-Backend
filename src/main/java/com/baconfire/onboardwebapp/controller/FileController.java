@@ -41,12 +41,14 @@ public class FileController {
     }
 
     @PostMapping("/uploadFile")
-    public UploadFileResponse uploadFile(@RequestBody SingleFileRequest singleFileRequest) {
-        MultipartFile file = singleFileRequest.getFile();
-        int employeeID = singleFileRequest.getEmployeeID();
-        String type = singleFileRequest.getType();
+    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file,
+                                         @RequestParam("employeeID") String employeeID,
+                                         @RequestParam("type") String type) {
+//        MultipartFile file = singleFileRequest.getFile();
+//        int employeeID = singleFileRequest.getEmployeeID();
+//        String type = singleFileRequest.getType();
 
-        String fileName = fileStorageServiceImpl.storeFile(file, employeeID, type);
+        String fileName = fileStorageServiceImpl.storeFile(file, Integer.valueOf(employeeID), type);
 
         String folderType = "Onboarding".equals(type) ? "OnboardingDocuments/" : "OPTDocuments/";
 
@@ -55,20 +57,22 @@ public class FileController {
                 .path(fileName)
                 .toUriString();
 
-        this.personalDocumentServiceImpl.storeFile(employeeID, type, fileDownloadUri, fileName);
+        this.personalDocumentServiceImpl.storeFile(Integer.valueOf(employeeID), type, fileDownloadUri, fileName);
 
-        return new UploadFileResponse(employeeID, type, fileName, fileDownloadUri);
+        return new UploadFileResponse(Integer.valueOf(employeeID), type, fileName, fileDownloadUri);
     }
 
     @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestBody MultiFilesRequest multiFilesRequest) {
-        MultipartFile[] files = multiFilesRequest.getFiles();
-        int employeeID = multiFilesRequest.getEmployeeID();
-        String type = multiFilesRequest.getType();
+    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile files,
+                                                        @RequestParam("employeeID") String employeeID,
+                                                        @RequestParam("type") String type) {
+//        MultipartFile[] files = multiFilesRequest.getFiles();
+//        int employeeID = multiFilesRequest.getEmployeeID();
+//        String type = multiFilesRequest.getType();
 
         return Arrays.asList(files)
                 .stream()
-                .map(file -> uploadFile(new SingleFileRequest(file, employeeID, type)))
+                .map(file -> uploadFile(file, employeeID, type))
                 .collect(Collectors.toList());
     }
 
@@ -86,7 +90,7 @@ public class FileController {
 
         List<UploadFileResponse> uploadFileResponseList = new ArrayList<>();
         personalDocumentList.forEach(personalDocument -> {
-            uploadFileResponseList.add(new UploadFileResponse(employeeID, personalDocument.getType()
+            uploadFileResponseList.add(new UploadFileResponse(Integer.valueOf(employeeID), personalDocument.getType()
                                     , personalDocument.getTitle()
                                     , personalDocument.getPath()));
         });

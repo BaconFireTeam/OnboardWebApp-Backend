@@ -2,6 +2,7 @@ package com.baconfire.onboardwebapp.controller;
 
 
 import com.baconfire.onboardwebapp.domain.ApplicationWorkFlow;
+import com.baconfire.onboardwebapp.restful.domain.ApplicationRequest;
 import com.baconfire.onboardwebapp.restful.domain.ApplicationResponse;
 import com.baconfire.onboardwebapp.restful.domain.VisaStatusRequest;
 import com.baconfire.onboardwebapp.restful.domain.VisaStatusResponse;
@@ -52,10 +53,10 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/application-submit", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ApplicationResponse submitApplication(@RequestParam("applicationId") int appId) {
+    public ApplicationResponse submitApplication(@RequestBody ApplicationRequest applicationRequest) {
         ApplicationResponse applicationResponse = new ApplicationResponse();
         applicationResponse.setOpenOrPending(true);
-        ApplicationWorkFlow applicationWorkFlow = applicationServiceImpl.updateApplication(appId, "pending");
+        ApplicationWorkFlow applicationWorkFlow = applicationServiceImpl.updateApplication(applicationRequest.getApplicationId(), "pending");
         applicationResponse.setApplicationWorkFlow(applicationWorkFlow);
         return applicationResponse;
     }
