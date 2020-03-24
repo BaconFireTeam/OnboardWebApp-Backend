@@ -1,4 +1,4 @@
-package com.baconfire.onboardwebapp.restful.domain;
+package com.baconfire.onboardwebapp.restful.domain.SubmitForm;
 
 import lombok.*;
 

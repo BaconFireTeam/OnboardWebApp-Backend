@@ -1,4 +1,4 @@
-package com.baconfire.onboardwebapp.restful.domain;
+package com.baconfire.onboardwebapp.restful.domain.SubmitForm;
 
 
 import lombok.*;
@@ -27,5 +27,5 @@ public class PersonRequest {
     private DriverLicenseRequest driverLicense;
     private List<AddressRequest> addressList;
     private ReferenceRequest reference;
-    private List<ContactRequest> contactList;
+    private List<ContactRequest> emergencyContactList;
 }

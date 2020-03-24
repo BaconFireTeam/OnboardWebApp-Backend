@@ -16,11 +16,6 @@ import java.util.List;
 @Table(name = "Employee")
 public class Employee extends Person implements Serializable  {
 
-//    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private int id;
-
     @Column(name = "Title")
     private String title;
 
@@ -39,7 +34,7 @@ public class Employee extends Person implements Serializable  {
     @Column(name = "Car")
     private String car;
 
-    @Column(name="VisaStatusID")
+    @Column(name = "VisaStatusID")
     private int visaStatusId;
 
     @Column(name = "VisaStartDate")
@@ -55,9 +50,5 @@ public class Employee extends Person implements Serializable  {
     private String driverLisence_ExpirationDate;
 
     @Column(name = "HouseID")
-    private String houseID;
-
-//    @OneToMany(fetch = FetchType.LAZY,mappedBy = "employee")
-//    private List<Contact> contactList;
-
+    private Integer houseID;
 }
