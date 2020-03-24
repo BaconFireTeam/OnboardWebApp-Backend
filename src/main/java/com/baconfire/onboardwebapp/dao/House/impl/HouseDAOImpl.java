@@ -17,7 +17,7 @@ public class HouseDAOImpl extends AbstractHibernateDAO implements HouseDAO {
 
     @Override
     public Integer getHouseID(Integer employeeID) {
-        String hql = "FROM Employee WHERE Id = :employeeID";
+        String hql = "FROM Employee WHERE id = :employeeID";
         Session session = getCurrentSession();
         Query query = session.createQuery(hql);
         query.setParameter("employeeID", employeeID);
@@ -33,7 +33,7 @@ public class HouseDAOImpl extends AbstractHibernateDAO implements HouseDAO {
 
     @Override
     public Contact contact(Integer contactID) {
-        String hql = "FROM Contact WHERE Id = :contactID";
+        String hql = "FROM Contact WHERE id = :contactID";
         Session session = getCurrentSession();
         Query query = session.createQuery(hql);
         query.setParameter("contactID", contactID);
