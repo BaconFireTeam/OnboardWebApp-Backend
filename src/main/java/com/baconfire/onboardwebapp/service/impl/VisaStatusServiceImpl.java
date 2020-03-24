@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,5 +83,17 @@ public class VisaStatusServiceImpl implements VisaStatusService, VisaStatusMessa
             visaList.add(checkStatus(employeeList.get(i).getId()));
         }
         return visaList;
+    }
+
+    @Override
+    @Transactional
+    public void updateVisaStatus(int employeeId, String newExpDate) throws ParseException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        SimpleDateFormat convert = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = convert.parse(newExpDate);
+        Employee employee = employeeDao.getEmployeeByID(employeeId);
+        employee.setVisaStatusId(employee.getVisaStatusId()+1);
+        employee.setVisaEndDate(formatter.format((TemporalAccessor) date));
+        employeeDao.saveEmployee(employee);
     }
 }
