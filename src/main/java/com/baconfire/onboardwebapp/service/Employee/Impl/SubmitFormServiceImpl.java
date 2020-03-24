@@ -89,13 +89,9 @@ public class SubmitFormServiceImpl implements SubmitFormService {
 
 //        employee.setAddressList(addressList);
 
-        // employee emergency contact
         List<ContactRequest> contactRequestList = employeeInfo.getEmergencyContactList();
 
-
-
-//        employee.setContactList(contactList);
-
+        System.out.println("test call saveEmployee in SubmitFormService");
         this.saveEmployeeServiceImpl.saveEmployee(employee, addressList, contactRequestList);
         // boolean validForm = this.employeeDaoImpl.saveEmployee(employee);
         // get personID or EmployeeID
