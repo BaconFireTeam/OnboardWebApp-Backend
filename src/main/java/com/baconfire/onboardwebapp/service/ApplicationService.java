@@ -1,5 +1,6 @@
 package com.baconfire.onboardwebapp.service;
 
+import com.baconfire.onboardwebapp.domain.ApplicationWorkFlow;
 import com.baconfire.onboardwebapp.restful.domain.ApplicationResponse;
 
 import java.util.List;
@@ -10,5 +11,7 @@ public interface ApplicationService {
 
     List<ApplicationResponse> checkAllApplications();
 
-    void updateApplication(int id, String status);
+    ApplicationWorkFlow updateApplication(int id, String status);
+
+    ApplicationWorkFlow openApplication(int id);
 }

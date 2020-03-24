@@ -1,16 +1,16 @@
 package com.baconfire.onboardwebapp.restful.domain.Files;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 
-public class DigitalDocumentResponse {
+public class SingleFileRequest {
+    private MultipartFile file;
+    private int employeeID;
     private String type;
-    private boolean required;
-    private String templateLocation;
-    private String description;
 }

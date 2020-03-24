@@ -3,9 +3,7 @@ package com.baconfire.onboardwebapp.controller;
 import com.baconfire.onboardwebapp.domain.DigitalDocument;
 import com.baconfire.onboardwebapp.domain.PersonalDocument;
 import com.baconfire.onboardwebapp.restful.common.ServiceStatus;
-import com.baconfire.onboardwebapp.restful.domain.Files.DigitalDocumentResponse;
-import com.baconfire.onboardwebapp.restful.domain.Files.GetDocumentsListResponse;
-import com.baconfire.onboardwebapp.restful.domain.Files.UploadFileResponse;
+import com.baconfire.onboardwebapp.restful.domain.Files.*;
 import com.baconfire.onboardwebapp.service.FileStorage.DigitalDocumentService;
 import com.baconfire.onboardwebapp.service.FileStorage.FileStorageService;
 import com.baconfire.onboardwebapp.service.FileStorage.PersonalDocumentService;
@@ -44,9 +42,13 @@ public class FileController {
 
     @PostMapping("/uploadFile")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file,
-                                         @RequestParam("employeeID") int employeeID,
+                                         @RequestParam("employeeID") String employeeID,
                                          @RequestParam("type") String type) {
-        String fileName = fileStorageServiceImpl.storeFile(file, employeeID, type);
+//        MultipartFile file = singleFileRequest.getFile();
+//        int employeeID = singleFileRequest.getEmployeeID();
+//        String type = singleFileRequest.getType();
+
+        String fileName = fileStorageServiceImpl.storeFile(file, Integer.valueOf(employeeID), type);
 
         String folderType = "Onboarding".equals(type) ? "OnboardingDocuments/" : "OPTDocuments/";
 
@@ -55,15 +57,19 @@ public class FileController {
                 .path(fileName)
                 .toUriString();
 
-        this.personalDocumentServiceImpl.storeFile(employeeID, type, fileDownloadUri, fileName);
+        this.personalDocumentServiceImpl.storeFile(Integer.valueOf(employeeID), type, fileDownloadUri, fileName);
 
-        return new UploadFileResponse(employeeID, type, fileName, fileDownloadUri);
+        return new UploadFileResponse(Integer.valueOf(employeeID), type, fileName, fileDownloadUri);
     }
 
     @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files,
-                                                        @RequestParam("employeeID") int employeeID,
+    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile files,
+                                                        @RequestParam("employeeID") String employeeID,
                                                         @RequestParam("type") String type) {
+//        MultipartFile[] files = multiFilesRequest.getFiles();
+//        int employeeID = multiFilesRequest.getEmployeeID();
+//        String type = multiFilesRequest.getType();
+
         return Arrays.asList(files)
                 .stream()
                 .map(file -> uploadFile(file, employeeID, type))
@@ -84,7 +90,7 @@ public class FileController {
 
         List<UploadFileResponse> uploadFileResponseList = new ArrayList<>();
         personalDocumentList.forEach(personalDocument -> {
-            uploadFileResponseList.add(new UploadFileResponse(employeeID, personalDocument.getType()
+            uploadFileResponseList.add(new UploadFileResponse(Integer.valueOf(employeeID), personalDocument.getType()
                                     , personalDocument.getTitle()
                                     , personalDocument.getPath()));
         });

@@ -1,6 +1,7 @@
 package com.baconfire.onboardwebapp.controller;
 
 import com.baconfire.onboardwebapp.restful.domain.ApplicationResponse;
+import com.baconfire.onboardwebapp.restful.domain.ApplicationUpdateRequest;
 import com.baconfire.onboardwebapp.restful.domain.VisaStatusRequest;
 import com.baconfire.onboardwebapp.restful.domain.VisaStatusResponse;
 import com.baconfire.onboardwebapp.service.ApplicationService;
@@ -37,14 +38,20 @@ public class HRController {
         return visaStatusResponse;
     }
 
-    @GetMapping(value = "/application", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public List<ApplicationResponse> checkApplication() {
+    @GetMapping(value = "/application")
+    public ApplicationResponse checkApplication() {
+        ApplicationResponse applicationResponse = new ApplicationResponse();
         List<ApplicationResponse> applicationList = applicationServiceImpl.checkAllApplications();
-        return applicationList;
+        applicationResponse.setApplicationList(applicationList);
+        return applicationResponse;
     }
 
-    @PostMapping(value = "/application", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateApplication(int appId, String status){
-
+    @PostMapping(value = "/application-update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ApplicationResponse updateApplication(@RequestBody ApplicationUpdateRequest applicationUpdateRequest){
+        applicationServiceImpl.updateApplication(applicationUpdateRequest.getApplicationId(), applicationUpdateRequest.getStatus());
+        ApplicationResponse applicationResponse = new ApplicationResponse();
+        List<ApplicationResponse> applicationList = applicationServiceImpl.checkAllApplications();
+        applicationResponse.setApplicationList(applicationList);
+        return applicationResponse;
     }
 }
