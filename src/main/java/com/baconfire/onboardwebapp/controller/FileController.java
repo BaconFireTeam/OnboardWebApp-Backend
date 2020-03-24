@@ -44,10 +44,6 @@ public class FileController {
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file,
                                          @RequestParam("employeeID") String employeeID,
                                          @RequestParam("type") String type) {
-//        MultipartFile file = singleFileRequest.getFile();
-//        int employeeID = singleFileRequest.getEmployeeID();
-//        String type = singleFileRequest.getType();
-
         String fileName = fileStorageServiceImpl.storeFile(file, Integer.valueOf(employeeID), type);
 
         String folderType = "Onboarding".equals(type) ? "OnboardingDocuments/" : "OPTDocuments/";
@@ -66,13 +62,9 @@ public class FileController {
     public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile files,
                                                         @RequestParam("employeeID") String employeeID,
                                                         @RequestParam("type") String type) {
-//        MultipartFile[] files = multiFilesRequest.getFiles();
-//        int employeeID = multiFilesRequest.getEmployeeID();
-//        String type = multiFilesRequest.getType();
-
         return Arrays.asList(files)
                 .stream()
-                .map(file -> uploadFile(file, employeeID, type))
+                .map(file -> uploadFile(new SingleFileRequest(file, employeeID, type)))
                 .collect(Collectors.toList());
     }
 
