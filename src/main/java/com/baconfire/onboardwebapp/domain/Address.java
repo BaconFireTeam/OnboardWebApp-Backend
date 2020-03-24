@@ -39,7 +39,15 @@ public class Address implements Serializable {
     private String stateAbbr;
 
     @Column(name = "PersonID")
-    private String personID;
+    private int personID;
 
+    public Address(String addressLine1, String addressLine2, String city, String zipCode, String stateName, String stateAbbr) {
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.city = city;
+        this.zipcode = zipCode;
+        this.stateName = stateName;
+        this.stateAbbr = stateAbbr;
+    }
 }
 

@@ -12,7 +12,7 @@ import java.io.Serializable;
 @ToString
 
 @Entity
-@Table(name = "Contact")
+@Table(name = "Facility")
 public class Facility implements Serializable {
 
     @Id
@@ -29,8 +29,14 @@ public class Facility implements Serializable {
     @Column(name = "Quantity")
     private String quantity;
 
-    @Column(name = "HouseID")
-    private  String houseID;
+
+//    @ManyToOne
+//    @JoinColumn(name = "HouseID")
+//    private House house;
+
+//    @Column(name = "HouseID")
+//    private Integer houseID;
+
 
 
 }
