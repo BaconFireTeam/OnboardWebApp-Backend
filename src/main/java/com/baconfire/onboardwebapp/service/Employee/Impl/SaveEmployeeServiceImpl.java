@@ -42,6 +42,8 @@ public class SaveEmployeeServiceImpl implements SaveEmployeeService {
     @Override
     @Transactional
     public void saveEmployee(Employee employee, List<Address> addressList, List<ContactRequest> contactRequestList) {
+        System.out.println("test call saveEmployee in SaveEmployeeService");
+
         int id = this.saveEmployee(employee);
         this.saveAddressList(addressList, id);
         this.saveContactList(contactRequestList, id);
@@ -65,18 +67,19 @@ public class SaveEmployeeServiceImpl implements SaveEmployeeService {
             contact.setAlternatephone(contactRequest.getAlternatephone());
             contact.setGender(contactRequest.getGender());
 
+            /*
             AddressRequest contactAddressRequest = contactRequest.getAddress();
             Address contactAddress = new Address(contactAddressRequest.getAddressLine1(), contactAddressRequest.getAddressLine2()
                     , contactAddressRequest.getCity(), contactAddressRequest.getZipCode()
                     , contactAddressRequest.getStateName(), contactAddressRequest.getStateAbbr());
-
+*/
             contact.setIsEmergency("Y");
             contact.setRelationship(contactRequest.getRelationship());
 
             contact.setEmployeeID(id);
             int contactID = this.contactDAOImpl.saveContact(contact);
-            contactAddress.setPersonID(contactID);
-            this.addressDaoImpl.saveAddress(contactAddress);
+//            contactAddress.setPersonID(contactID);
+//            this.addressDaoImpl.saveAddress(contactAddress);
         }
     }
 
