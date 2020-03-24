@@ -28,9 +28,12 @@ public class House implements Serializable {
     private String address;
 
     @Column(name = "NumberOfPerson")
-    private String NumberOfPerson;
+    private String numberOfPerson;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @Column(name = "maxPerson")
+    private String maxPerson;
+
+    @OneToMany(cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     @JoinColumn(name = "ID", updatable = false, insertable = false, nullable=false)
     private List<Facility> facilityList ;
 
