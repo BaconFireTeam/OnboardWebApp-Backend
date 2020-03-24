@@ -11,6 +11,7 @@ import lombok.*;
 @ToString
 
 public class ApplicationRequest {
+    private int applicationId;
     private PersonRequest person;
     private AddressRequest address;
 }

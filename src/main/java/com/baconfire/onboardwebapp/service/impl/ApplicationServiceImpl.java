@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,9 +35,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Transactional
     public ApplicationResponse checkApplicationsById(int employeeId) {
         Employee employee = employeeDAOImpl.getEmployeeByID(employeeId);
-        String name = employee.getFirstname() + " " + employee.getLastname();
         ApplicationResponse applicationResponse = new ApplicationResponse();
-        applicationResponse.setEmployeeName(name);
+        applicationResponse.setEmployee(employee);
         ApplicationWorkFlow applicationWorkFlow = applicationWorkFlowDAOImpl.checkOpen(employeeId);
         if(applicationWorkFlow == null) {
             applicationWorkFlow = applicationWorkFlowDAOImpl.checkPending(employeeId);
@@ -62,9 +63,27 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional
-    public void updateApplication(int id, String status) {
+    public ApplicationWorkFlow updateApplication(int id, String status) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        Date now = new Date();
         ApplicationWorkFlow applicationWorkFlow = applicationWorkFlowDAOImpl.getById(id);
+        applicationWorkFlow.setModificationDate(formatter.format(now));
         applicationWorkFlow.setStatus(status);
         applicationWorkFlowDAOImpl.updateApplication(applicationWorkFlow);
+        return applicationWorkFlow;
+    }
+
+    @Override
+    @Transactional
+    public ApplicationWorkFlow openApplication(int id) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        Date now = new Date();
+        ApplicationWorkFlow applicationWorkFlow = new ApplicationWorkFlow();
+        applicationWorkFlow.setEmployeeID(id);
+        applicationWorkFlow.setStatus("open");
+        applicationWorkFlow.setCreatedDate(formatter.format(now));
+        applicationWorkFlow.setType("OPT");
+        applicationWorkFlowDAOImpl.updateApplication(applicationWorkFlow);
+        return applicationWorkFlow;
     }
 }

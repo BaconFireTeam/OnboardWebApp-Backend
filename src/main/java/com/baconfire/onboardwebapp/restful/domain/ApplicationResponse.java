@@ -1,7 +1,10 @@
 package com.baconfire.onboardwebapp.restful.domain;
 
 import com.baconfire.onboardwebapp.domain.ApplicationWorkFlow;
+import com.baconfire.onboardwebapp.domain.Employee;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -10,7 +13,8 @@ import lombok.*;
 @ToString
 
 public class ApplicationResponse {
-    private String employeeName;
+    private Employee employee;
     private ApplicationWorkFlow applicationWorkFlow;
     private boolean openOrPending;
+    private List<ApplicationResponse> applicationList;
 }

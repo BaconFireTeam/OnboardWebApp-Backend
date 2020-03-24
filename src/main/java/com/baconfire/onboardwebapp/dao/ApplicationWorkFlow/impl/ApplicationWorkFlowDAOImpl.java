@@ -10,20 +10,15 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.NoResultException;
 
 @Repository("applicationWorkFlowDaoImpl")
-public class ApplicationWorkFlowDAOImpl extends AbstractHibernateDAO implements ApplicationWorkFlowDAO {
+public class ApplicationWorkFlowDAOImpl extends AbstractHibernateDAO<ApplicationWorkFlow> implements ApplicationWorkFlowDAO {
+
+    public ApplicationWorkFlowDAOImpl() {
+        setClazz(ApplicationWorkFlow.class);
+    }
 
     @Override
     public ApplicationWorkFlow getById(int id) {
-        String hql = "FROM ApplicationWorkFlow WHERE id = :id";
-        Session session = getCurrentSession();
-        Query query = session.createQuery(hql);
-        query.setParameter("id", id);
-        try {
-            ApplicationWorkFlow applicationWorkFlow = (ApplicationWorkFlow) query.getSingleResult();
-            return applicationWorkFlow;
-        } catch(NoResultException e) {
-            return null;
-        }
+        return findById(id);
     }
 
     @Override

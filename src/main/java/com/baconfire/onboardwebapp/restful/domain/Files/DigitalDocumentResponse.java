@@ -12,5 +12,5 @@ public class DigitalDocumentResponse {
     private String type;
     private boolean required;
     private String templateLocation;
-    private String Description;
+    private String description;
 }
