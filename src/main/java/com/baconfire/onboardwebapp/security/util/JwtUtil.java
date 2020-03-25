@@ -21,7 +21,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  */
 @Service
 public class JwtUtil {
-	
+
 	// TODO:
 	// this key should be somehow obtained from the authentication server
 	private String SECRET_KEY = "CORGCORG";
