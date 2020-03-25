@@ -24,7 +24,7 @@ public class FacilityReport implements Serializable {
     private String title;
 
     @Column(name = "EmployeeID")
-    private String EmployeeID;
+    private Integer EmployeeID;
 
     @Column(name = "ReportDate")
     private String reportDate;

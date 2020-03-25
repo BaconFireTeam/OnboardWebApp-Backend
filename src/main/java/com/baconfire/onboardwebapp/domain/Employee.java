@@ -34,6 +34,9 @@ public class Employee extends Person implements Serializable  {
     @Column(name = "Car")
     private String car;
 
+    @Column(name = "VisaStatusID")
+    private int visaStatusId;
+
     @Column(name = "VisaStartDate")
     private String visaStartDate;
 
@@ -47,9 +50,5 @@ public class Employee extends Person implements Serializable  {
     private String driverLisence_ExpirationDate;
 
     @Column(name = "HouseID")
-    private String houseID;
-
-    @OneToMany(mappedBy = "employee")
-    private List<Contact> contactList;
-
+    private Integer houseID;
 }

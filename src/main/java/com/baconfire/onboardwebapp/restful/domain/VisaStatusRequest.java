@@ -8,8 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 
-public class VisaRequest {
-    private String type;
-    private String startDate;
-    private String endDate;
+public class VisaStatusRequest {
+    private int employeeId;
 }

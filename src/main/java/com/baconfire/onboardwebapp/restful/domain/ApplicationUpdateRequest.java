@@ -1,13 +1,16 @@
 package com.baconfire.onboardwebapp.restful.domain;
 
+
 import lombok.*;
 
 @Getter
 @Setter
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 
-public class EmployeeRequest {
-    private PersonRequest employee;
+public class ApplicationUpdateRequest {
+
+    private int applicationId;
+    private String status;
 }

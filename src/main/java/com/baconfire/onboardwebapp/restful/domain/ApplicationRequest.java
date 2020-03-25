@@ -1,7 +1,7 @@
 package com.baconfire.onboardwebapp.restful.domain;
 
-import com.baconfire.onboardwebapp.domain.Address;
-import com.baconfire.onboardwebapp.domain.Person;
+import com.baconfire.onboardwebapp.restful.domain.SubmitForm.AddressRequest;
+import com.baconfire.onboardwebapp.restful.domain.SubmitForm.PersonRequest;
 import lombok.*;
 
 @Getter
@@ -11,6 +11,7 @@ import lombok.*;
 @ToString
 
 public class ApplicationRequest {
+    private int applicationId;
     private PersonRequest person;
     private AddressRequest address;
 }

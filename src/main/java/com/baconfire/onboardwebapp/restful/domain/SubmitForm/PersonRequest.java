@@ -1,4 +1,4 @@
-package com.baconfire.onboardwebapp.restful.domain;
+package com.baconfire.onboardwebapp.restful.domain.SubmitForm;
 
 
 import lombok.*;
@@ -12,7 +12,6 @@ import java.util.List;
 @ToString
 
 public class PersonRequest {
-    private int id;
     private String firstname;
     private String lastname;
     private String middlename;
@@ -27,5 +26,5 @@ public class PersonRequest {
     private DriverLicenseRequest driverLicense;
     private List<AddressRequest> addressList;
     private ReferenceRequest reference;
-    private List<ContactRequest> contactList;
+    private List<ContactRequest> emergencyContactList;
 }
