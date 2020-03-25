@@ -88,12 +88,14 @@ public class VisaStatusServiceImpl implements VisaStatusService, VisaStatusMessa
     @Override
     @Transactional
     public void updateVisaStatus(int employeeId, String newExpDate) throws ParseException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         SimpleDateFormat convert = new SimpleDateFormat("yyyy-MM-dd");
         Date date = convert.parse(newExpDate);
+        convert.applyPattern("MM/dd/yyyy");
+        String newDate = convert.format(date);
         Employee employee = employeeDao.getEmployeeByID(employeeId);
         employee.setVisaStatusId(employee.getVisaStatusId()+1);
-        employee.setVisaEndDate(formatter.format((TemporalAccessor) date));
+        employee.setVisaEndDate(newDate);
         employeeDao.saveEmployee(employee);
     }
 }

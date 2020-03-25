@@ -58,15 +58,15 @@ public class FileController {
         return new UploadFileResponse(Integer.valueOf(employeeID), type, fileName, fileDownloadUri);
     }
 
-    @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile files,
-                                                        @RequestParam("employeeID") String employeeID,
-                                                        @RequestParam("type") String type) {
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> uploadFile(new SingleFileRequest(file, employeeID, type)))
-                .collect(Collectors.toList());
-    }
+//    @PostMapping("/uploadMultipleFiles")
+//    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile files,
+//                                                        @RequestParam("employeeID") String employeeID,
+//                                                        @RequestParam("type") String type) {
+//        return Arrays.asList(files)
+//                .stream()
+//                .map(file -> uploadFile(new SingleFileRequest(file, employeeID, type)))
+//                .collect(Collectors.toList());
+//    }
 
     @PostMapping("/employee/getPersonalDocument")
     public GetDocumentsListResponse getFiles(@RequestParam("employeeID") int employeeID,
