@@ -14,4 +14,6 @@ public interface ApplicationService {
     ApplicationWorkFlow updateApplication(int id, String status);
 
     ApplicationWorkFlow openApplication(int id);
+
+    void updateOnboardingApplication(int id, String status);
 }

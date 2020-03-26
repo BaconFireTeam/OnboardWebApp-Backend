@@ -4,6 +4,7 @@ import com.baconfire.onboardwebapp.domain.DigitalDocument;
 import com.baconfire.onboardwebapp.domain.PersonalDocument;
 import com.baconfire.onboardwebapp.restful.common.ServiceStatus;
 import com.baconfire.onboardwebapp.restful.domain.Files.*;
+import com.baconfire.onboardwebapp.service.ApplicationService;
 import com.baconfire.onboardwebapp.service.FileStorage.DigitalDocumentService;
 import com.baconfire.onboardwebapp.service.FileStorage.FileStorageService;
 import com.baconfire.onboardwebapp.service.FileStorage.PersonalDocumentService;
@@ -24,6 +25,7 @@ public class FileController {
     private FileStorageService fileStorageServiceImpl;
     private PersonalDocumentService personalDocumentServiceImpl;
     private DigitalDocumentService digitalDocumentServiceImpl;
+    private ApplicationService applicationServiceImpl;
 
     @Autowired
     public void setFileStorageServiceImpl(FileStorageService fileStorageServiceImpl) {
@@ -38,6 +40,11 @@ public class FileController {
     @Autowired
     public void setDigitalDocumentServiceImpl(DigitalDocumentService digitalDocumentServiceImpl) {
         this.digitalDocumentServiceImpl = digitalDocumentServiceImpl;
+    }
+
+    @Autowired
+    public void setApplicationServiceImpl(ApplicationService applicationServiceImpl) {
+        this.applicationServiceImpl = applicationServiceImpl;
     }
 
     @PostMapping("/uploadFile")
@@ -59,13 +66,18 @@ public class FileController {
     }
 
     @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("file") MultipartFile files,
+    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files,
                                                         @RequestParam("employeeID") String employeeID,
                                                         @RequestParam("type") String type) {
-        return Arrays.asList(files)
+        List<UploadFileResponse> res = Arrays.asList(files)
                 .stream()
-                .map(file -> uploadFile(new SingleFileRequest(file, employeeID, type)))
+                .map(file -> uploadFile(file, employeeID, type))
                 .collect(Collectors.toList());
+
+        if (res.size() != 0) {
+            this.applicationServiceImpl.updateOnboardingApplication(Integer.valueOf(employeeID), "Pending");
+        }
+        return res;
     }
 
     @PostMapping("/employee/getPersonalDocument")
