@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.baconfire.onboardwebapp.security.services.MyUserDetailsService;
 import com.baconfire.onboardwebapp.security.util.JwtUtil;
 
-@Component
+//@Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 	@Autowired
 	private MyUserDetailsService userDetailsService;

@@ -20,7 +20,7 @@ import com.baconfire.onboardwebapp.security.filter.JwtRequestFilter;
  *         we will specify which API end point will be permitted to which user
  *         role. this class will make use of the built in spring security
  *         userDetailsService and our custom JwtRequestFilter.
- * 
+ *
  */
 @EnableWebSecurity
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {

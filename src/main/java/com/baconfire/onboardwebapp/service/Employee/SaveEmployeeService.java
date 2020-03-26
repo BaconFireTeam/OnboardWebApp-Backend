@@ -8,5 +8,5 @@ import com.baconfire.onboardwebapp.restful.domain.SubmitForm.ContactRequest;
 import java.util.List;
 
 public interface SaveEmployeeService {
-    void saveEmployee(Employee employee, List<Address> addressList, List<ContactRequest> contactRequestList);
+    int saveEmployee(Employee employee, List<Address> addressList, List<ContactRequest> contactRequestList);
 }
