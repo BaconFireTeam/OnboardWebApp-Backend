@@ -86,4 +86,19 @@ public class ApplicationServiceImpl implements ApplicationService {
         applicationWorkFlowDAOImpl.updateApplication(applicationWorkFlow);
         return applicationWorkFlow;
     }
+
+    @Override
+    @Transactional
+    public void updateOnboardingApplication(int id, String status) {
+        ApplicationWorkFlow applicationWorkFlow = new ApplicationWorkFlow();
+        applicationWorkFlow.setEmployeeID(id);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss");
+        Date createDate = new Date();
+        applicationWorkFlow.setCreatedDate(formatter.format(createDate));
+
+        applicationWorkFlow.setStatus(status);
+        applicationWorkFlow.setType("Onboarding");
+        this.applicationWorkFlowDAOImpl.updateApplication(applicationWorkFlow);
+    }
 }

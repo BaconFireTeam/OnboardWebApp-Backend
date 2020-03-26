@@ -17,4 +17,5 @@ public class Response {
     private ServiceStatus serviceStatus;
     private User user;
     private Role role;
+    private int employeeId;
 }

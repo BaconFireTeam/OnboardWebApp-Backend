@@ -41,12 +41,14 @@ public class SaveEmployeeServiceImpl implements SaveEmployeeService {
     // boolean validForm = this.employeeDaoImpl.saveEmployee(employee);
     @Override
     @Transactional
-    public void saveEmployee(Employee employee, List<Address> addressList, List<ContactRequest> contactRequestList) {
+    public int saveEmployee(Employee employee, List<Address> addressList, List<ContactRequest> contactRequestList) {
         System.out.println("test call saveEmployee in SaveEmployeeService");
 
         int id = this.saveEmployee(employee);
         this.saveAddressList(addressList, id);
         this.saveContactList(contactRequestList, id);
+
+        return id;
     }
 
     private void saveAddressList(List<Address> addressList, int id) {

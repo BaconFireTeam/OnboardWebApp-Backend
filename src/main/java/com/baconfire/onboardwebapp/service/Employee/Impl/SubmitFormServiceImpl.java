@@ -37,7 +37,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
 
     @Override
     @Transactional
-    public boolean submitForm(PersonRequest employeeInfo) {
+    public int submitForm(PersonRequest employeeInfo) {
         Employee employee = new Employee();
 
         // employee's person info
@@ -67,7 +67,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
         int visaID = this.visaStatusDAOImpl.getIDByType(visaRequest.getType());
 
         if (visaID == -1) {
-            return false;
+            return -1;
         }
 
         employee.setVisaStatusId(visaID);
@@ -92,10 +92,10 @@ public class SubmitFormServiceImpl implements SubmitFormService {
         List<ContactRequest> contactRequestList = employeeInfo.getEmergencyContactList();
 
         System.out.println("test call saveEmployee in SubmitFormService");
-        this.saveEmployeeServiceImpl.saveEmployee(employee, addressList, contactRequestList);
+        int id = this.saveEmployeeServiceImpl.saveEmployee(employee, addressList, contactRequestList);
         // boolean validForm = this.employeeDaoImpl.saveEmployee(employee);
         // get personID or EmployeeID
         // save addressList , contactList
-        return true;
+        return id;
     }
 }
