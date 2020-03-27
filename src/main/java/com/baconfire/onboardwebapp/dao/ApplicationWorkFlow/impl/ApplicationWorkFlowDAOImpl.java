@@ -8,6 +8,7 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 @Repository("applicationWorkFlowDaoImpl")
 public class ApplicationWorkFlowDAOImpl extends AbstractHibernateDAO<ApplicationWorkFlow> implements ApplicationWorkFlowDAO {
@@ -53,5 +54,18 @@ public class ApplicationWorkFlowDAOImpl extends AbstractHibernateDAO<Application
         } catch(NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<ApplicationWorkFlow> getApplicationByStatus(String status) {
+        return getCurrentSession().createQuery("FROM ApplicationWorkFlow WHERE status LIKE: status")
+                .setParameter("status", status)
+                .getResultList();
+    }
+
+    @Override
+    public List<ApplicationWorkFlow> getOnboardingApplication() {
+        return getCurrentSession().createQuery("FROM ApplicationWorkFlow WHERE type = 'Onboarding'")
+                .getResultList();
     }
 }

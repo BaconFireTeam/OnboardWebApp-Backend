@@ -16,4 +16,8 @@ public interface ApplicationService {
     ApplicationWorkFlow openApplication(int id);
 
     void updateOnboardingApplication(int id, String status);
+
+    List<ApplicationWorkFlow> getApplicationByStatus(String status);
+
+    List<ApplicationWorkFlow> getOnboardingApplication();
 }
