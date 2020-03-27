@@ -8,6 +8,8 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository("applicationWorkFlowDaoImpl")
@@ -67,5 +69,23 @@ public class ApplicationWorkFlowDAOImpl extends AbstractHibernateDAO<Application
     public List<ApplicationWorkFlow> getOnboardingApplication() {
         return getCurrentSession().createQuery("FROM ApplicationWorkFlow WHERE type = 'Onboarding'")
                 .getResultList();
+    }
+
+    @Override
+    public void updateComment(int employeeID, String comment) {
+        Session session = getCurrentSession();
+        ApplicationWorkFlow applicationWorkFlow = (ApplicationWorkFlow) session
+                .createQuery("FROM ApplicationWorkFlow WHERE employeeID =: id AND type = 'Onboarding'")
+                .setParameter("id", employeeID)
+                .getSingleResult();
+        applicationWorkFlow.setComments(comment);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Date date = new Date();
+        String curDate = formatter.format(date);
+
+        applicationWorkFlow.setModificationDate(curDate);
+
+        session.update(applicationWorkFlow);
     }
 }

@@ -1,0 +1,5 @@
+package com.baconfire.onboardwebapp.service.ReviewApplication;
+
+public interface ApplicationWorkFlowService {
+    void updateComment(int employeeID, String comment);
+}
