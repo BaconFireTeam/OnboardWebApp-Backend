@@ -20,4 +20,6 @@ public interface ApplicationService {
     List<ApplicationWorkFlow> getApplicationByStatus(String status);
 
     List<ApplicationWorkFlow> getOnboardingApplication();
+
+    void updateComment(int employeeID, String comment);
 }

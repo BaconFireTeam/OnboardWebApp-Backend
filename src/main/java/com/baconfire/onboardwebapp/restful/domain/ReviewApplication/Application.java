@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 
 public class Application {
+    private int appID;
     private int employeeID;
     private String employeeName;
     private String type;

@@ -21,4 +21,9 @@ public class ApplicationWorkFlowServiceImpl implements ApplicationWorkFlowServic
     public void updateComment(int employeeID, String comment) {
         this.applicationWorkFlowDAOImpl.updateComment(employeeID, comment);
     }
+
+    @Override
+    public void updateStatus(int appID, String status) {
+
+    }
 }

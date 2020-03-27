@@ -113,4 +113,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<ApplicationWorkFlow> getOnboardingApplication() {
         return this.applicationWorkFlowDAOImpl.getOnboardingApplication();
     }
+
+    @Override
+    @Transactional
+    public void updateComment(int employeeID, String comment) {
+        this.applicationWorkFlowDAOImpl.updateComment(employeeID, comment);
+    }
 }

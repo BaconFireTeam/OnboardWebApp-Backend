@@ -2,6 +2,7 @@ package com.baconfire.onboardwebapp.controller;
 
 import com.baconfire.onboardwebapp.domain.*;
 import com.baconfire.onboardwebapp.restful.common.ServiceStatus;
+import com.baconfire.onboardwebapp.restful.domain.ApplicationUpdateRequest;
 import com.baconfire.onboardwebapp.restful.domain.Response;
 import com.baconfire.onboardwebapp.restful.domain.ReviewApplication.*;
 import com.baconfire.onboardwebapp.service.ApplicationService;
@@ -31,7 +32,6 @@ public class HRReviewApplication {
     private ContactService contactServiceImpl;
     private AddressService addressServiceImpl;
 
-    private ApplicationWorkFlowService applicationWorkFlowServiceImpl;
     private PersonalDocumentService personalDocumentServiceImpl;
 
     @Autowired
@@ -65,11 +65,6 @@ public class HRReviewApplication {
     }
 
     @Autowired
-    public void setApplicationWorkFlowServiceImpl(ApplicationWorkFlowService applicationWorkFlowServiceImpl) {
-        this.applicationWorkFlowServiceImpl = applicationWorkFlowServiceImpl;
-    }
-
-    @Autowired
     public void setPersonalDocumentServiceImpl(PersonalDocumentService personalDocumentServiceImpl) {
         this.personalDocumentServiceImpl = personalDocumentServiceImpl;
     }
@@ -89,8 +84,9 @@ public class HRReviewApplication {
 
         List<Application> applicationList = new ArrayList<>();
         applicationWorkFlowList.forEach(applicationWorkFlow -> {
+            int appid = applicationWorkFlow.getId();
             int id = applicationWorkFlow.getEmployeeID();
-            Application application = new Application(id, this.employeeServiceImpl.getNameByID(id)
+            Application application = new Application(appid, id, this.employeeServiceImpl.getNameByID(id)
                     , applicationWorkFlow.getType(), applicationWorkFlow.getStatus());
 
             applicationList.add(application);
@@ -156,7 +152,7 @@ public class HRReviewApplication {
         int employeeID = Integer.parseInt(commentRequest.getEmployeeID());
         String comment = commentRequest.getComment();
 
-        this.applicationWorkFlowServiceImpl.updateComment(employeeID, comment);
+        this.applicationServiceImpl.updateComment(employeeID, comment);
 
         return response;
     }
@@ -164,8 +160,6 @@ public class HRReviewApplication {
     @PostMapping("/saveFileComment")
     public Response saveCommentForFilesApplication(@RequestBody FileCommentRequest fileCommentRequest) {
         Response response = new Response();
-
-        System.out.println(fileCommentRequest.getFileCommentRequest().toString());
 
         fileCommentRequest.getFileCommentRequest().getCommentRequestList().forEach(commentRequest -> {
                     int fileId = commentRequest.getFileID();
@@ -177,10 +171,17 @@ public class HRReviewApplication {
         return response;
     }
 
-//    @PostMapping("/updateApplicationStatus")
-//    public Response updateApplicationStatus(@RequestBody UpdateApplicationStatusRequest) {
-//        Response response = new Response();
-//
-//        return response;
-//    }
+    @PostMapping("/updateApplicationStatus")
+    public Response updateApplicationStatus(@RequestBody ApplicationUpdateRequest applicationUpdateRequest) {
+        Response response = new Response();
+
+        System.out.println(applicationUpdateRequest.toString());
+
+        int appID = applicationUpdateRequest.getApplicationId();
+        String status = applicationUpdateRequest.getStatus();
+
+        this.applicationServiceImpl.updateApplication(appID, status);
+
+        return response;
+    }
 }
