@@ -15,13 +15,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.baconfire.onboardwebapp.security.services.MyUserDetailsService;
 import com.baconfire.onboardwebapp.security.util.JwtUtil;
 
-//@Component
+@Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-	@Autowired
-	private MyUserDetailsService userDetailsService;
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -43,37 +40,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		// the second condition is used to make sure SecurityContextHolder doesn't
 		// already have a authenticated user
 		// if the user is authenticated
-		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-			// TODO:
-			// we still need this userDetails for authorization?
-			// we need to get userDetails back from the authentication server and store
-			// here?
-			UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
-			if (jwtUtil.validateToken(jwt, userDetails)) {
-
-				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-						userDetails, null, userDetails.getAuthorities());
-				usernamePasswordAuthenticationToken
-						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				// TODO:
-				// question: this will help pass the following filter, which is
-				// UsernamePasswordAuthenticationFilter.class?
-				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-			}
+		if (username != null && jwtUtil.validateToken(jwt)) {
+			chain.doFilter(request, response);
 		} else {
-			// if the user is not authenticated redirect to the authentication server
-			String authService = this.getFilterConfig().getInitParameter("services.auth");
-			response.sendRedirect(authService + "?redirect=" + request.getRequestURL());
+			// if the user is not authenticated, send a 401 error response
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			// TODO:
-			// I need to redirect to the authentication server and get a response with jwt
-			// back.
-			// How do I get the jwt back?
-			// Or I don't need to get the jwt back here. I could send a response form the
-			// authentication server controller?
+			// response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
-		// pass on to next filter
-		chain.doFilter(request, response);
 	}
 }
