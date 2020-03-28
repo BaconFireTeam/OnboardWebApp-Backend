@@ -1,11 +1,9 @@
-package com.baconfire.onboardwebapp.dao.Contact;
+package com.baconfire.onboardwebapp.service.ReviewApplication;
 
 import com.baconfire.onboardwebapp.domain.Contact;
 
 import java.util.List;
 
-public interface ContactDAO {
-    int saveContact(Contact contact);
-
+public interface ContactService {
     List<Contact> getContactByID(int employeeID);
 }

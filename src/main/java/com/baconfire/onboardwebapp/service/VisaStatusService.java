@@ -13,4 +13,6 @@ public interface VisaStatusService {
     List<VisaStatusResponse> checkAllStatus() throws ParseException;
 
     void updateVisaStatus(int employeeId, String newExpDate) throws ParseException;
+
+    String getVisaStatusByID(int visaStatusId);
 }

@@ -80,8 +80,8 @@ public class SubmitFormServiceImpl implements SubmitFormService {
 
         for (AddressRequest addressRequest : addressRequestList) {
             Address address = new Address(addressRequest.getAddressLine1(), addressRequest.getAddressLine2()
-                    , addressRequest.getCity(), addressRequest.getZipCode()
-                    , addressRequest.getStateName(), addressRequest.getStateAbbr());
+                    , addressRequest.getCity(), addressRequest.getZipcode()
+                    , addressRequest.getState(), addressRequest.getStateAbbr());
 
 //            address.setPerson(employee);
             addressList.add(address);
