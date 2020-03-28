@@ -1,7 +1,9 @@
 package com.baconfire.onboardwebapp.controller;
 
+import com.baconfire.onboardwebapp.domain.Employee;
 import com.baconfire.onboardwebapp.restful.domain.*;
 import com.baconfire.onboardwebapp.service.ApplicationService;
+import com.baconfire.onboardwebapp.service.HrProfileService;
 import com.baconfire.onboardwebapp.service.VisaStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,6 +18,7 @@ public class HRController {
 
     private VisaStatusService visaStatusService;
     private ApplicationService applicationServiceImpl;
+    private HrProfileService hrProfileServiceImp;
 
     @Autowired
     public void setVisaStatusService(VisaStatusService visaStatusService) {
@@ -27,12 +30,37 @@ public class HRController {
         this.applicationServiceImpl = applicationServiceImpl;
     }
 
+    @Autowired
+    public void setHrProfileService(HrProfileService hrProfileServiceImp) {
+        this.hrProfileServiceImp = hrProfileServiceImp;
+    }
+
     @GetMapping(value = "/visa-status")
     public VisaStatusResponse getVisaStatus() throws ParseException {
         VisaStatusResponse visaStatusResponse = new VisaStatusResponse();
         List<VisaStatusResponse> visaList = visaStatusService.checkAllStatus();
         visaStatusResponse.setStatusList(visaList);
         return visaStatusResponse;
+    }
+
+    @GetMapping(value = "/empProfiles")
+    public EmployeeProfileResponse getEmployees() {
+        EmployeeProfileResponse profileResponse = new EmployeeProfileResponse();
+        List<Employee> employeeList = hrProfileServiceImp.getAllEmployees();
+        int length = employeeList.size();
+        profileResponse.setEmployeeList(employeeList);
+        profileResponse.setLength(length);
+        return profileResponse;//get employees
+    }
+
+    @PostMapping(value = "/empProfiles")
+    public EmployeeProfileResponse getEmployees(@RequestParam String search) {
+        EmployeeProfileResponse profileResponse = new EmployeeProfileResponse();
+        List<Employee> employeeList = hrProfileServiceImp.searchEmployee(search);
+        int length = employeeList.size();
+        profileResponse.setEmployeeList(employeeList);
+        profileResponse.setLength(length);
+        return profileResponse;
     }
 
     @GetMapping(value = "/application")
