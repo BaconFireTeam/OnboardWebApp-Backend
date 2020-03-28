@@ -3,8 +3,10 @@ package com.baconfire.onboardwebapp.service.impl;
 import com.baconfire.onboardwebapp.constant.VisaStatusMessage;
 import com.baconfire.onboardwebapp.dao.ApplicationWorkFlow.ApplicationWorkFlowDAO;
 import com.baconfire.onboardwebapp.dao.Employee.EmployeeDAO;
+import com.baconfire.onboardwebapp.dao.VisaStatus.VisaStatusDAO;
 import com.baconfire.onboardwebapp.domain.ApplicationWorkFlow;
 import com.baconfire.onboardwebapp.domain.Employee;
+import com.baconfire.onboardwebapp.domain.VisaStatus;
 import com.baconfire.onboardwebapp.restful.domain.VisaStatusResponse;
 import com.baconfire.onboardwebapp.service.VisaStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,8 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class VisaStatusServiceImpl implements VisaStatusService, VisaStatusMessage {
-
     private EmployeeDAO employeeDao;
-
+    private VisaStatusDAO visaStatusDAOImpl;
 //    private ApplicationWorkFlowDAO applicationWorkFlowDao;
 
     @Autowired
@@ -36,6 +37,11 @@ public class VisaStatusServiceImpl implements VisaStatusService, VisaStatusMessa
 //    public void setApplicationWorkFlowDao(ApplicationWorkFlowDAO applicationWorkFlowDao) {
 //        this.applicationWorkFlowDao = applicationWorkFlowDao;
 //    }
+
+    @Autowired
+    public void setVisaStatusDAOImpl(VisaStatusDAO visaStatusDAOImpl) {
+        this.visaStatusDAOImpl = visaStatusDAOImpl;
+    }
 
     @Override
     @Transactional
@@ -97,5 +103,11 @@ public class VisaStatusServiceImpl implements VisaStatusService, VisaStatusMessa
         employee.setVisaStatusId(employee.getVisaStatusId()+1);
         employee.setVisaEndDate(newDate);
         employeeDao.saveEmployee(employee);
+    }
+
+    @Override
+    @Transactional
+    public String getVisaStatusByID(int visaStatusId) {
+        return this.visaStatusDAOImpl.getVisaStatusByID(visaStatusId);
     }
 }

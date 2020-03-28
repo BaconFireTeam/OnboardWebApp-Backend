@@ -80,9 +80,8 @@ public class FileController {
         return res;
     }
 
-    @PostMapping("/employee/getPersonalDocument")
-    public GetDocumentsListResponse getFiles(@RequestParam("employeeID") int employeeID,
-                                             @RequestParam("type") String type) {
+    @GetMapping("/getPersonalDocument")
+    public GetDocumentsListResponse getFiles(int employeeID, String type) {
         GetDocumentsListResponse response = new GetDocumentsListResponse();
         List<PersonalDocument> personalDocumentList = this.personalDocumentServiceImpl.getFilesByIDAndType(employeeID, type);
 
@@ -94,7 +93,7 @@ public class FileController {
 
         List<UploadFileResponse> uploadFileResponseList = new ArrayList<>();
         personalDocumentList.forEach(personalDocument -> {
-            uploadFileResponseList.add(new UploadFileResponse(Integer.valueOf(employeeID), personalDocument.getType()
+            uploadFileResponseList.add(new UploadFileResponse(personalDocument.getId(), Integer.valueOf(employeeID), personalDocument.getType()
                                     , personalDocument.getTitle()
                                     , personalDocument.getPath()));
         });

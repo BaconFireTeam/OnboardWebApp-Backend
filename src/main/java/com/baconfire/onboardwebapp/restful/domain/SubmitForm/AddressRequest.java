@@ -12,7 +12,7 @@ public class AddressRequest {
     private String addressLine1;
     private String addressLine2;
     private String city;
-    private String zipCode;
-    private String stateName;
+    private String zipcode;
+    private String state;
     private String stateAbbr;
 }
