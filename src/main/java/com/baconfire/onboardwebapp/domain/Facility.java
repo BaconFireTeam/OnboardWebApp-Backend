@@ -34,8 +34,8 @@ public class Facility implements Serializable {
 //    @JoinColumn(name = "HouseID")
 //    private House house;
 
-//    @Column(name = "HouseID")
-//    private Integer houseID;
+    @Column(name = "HouseID")
+    private Integer houseID;
 
 
 

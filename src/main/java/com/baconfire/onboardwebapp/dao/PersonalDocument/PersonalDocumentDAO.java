@@ -8,4 +8,8 @@ public interface PersonalDocumentDAO {
     void saveDocument(PersonalDocument personalDocument);
 
     List<PersonalDocument> getFilesByIDAndType(int employeeID, String type);
+
+    void updateComment(int employeeID, String comment);
+
+    List<PersonalDocument> getComment(int employeeID);
 }

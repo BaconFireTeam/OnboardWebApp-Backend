@@ -85,5 +85,26 @@ public class HouseServiceImpl implements HouseService {
         return houseDaoImpl.getAllReport(employeeList);
     }
 
+    @Override
+    @Transactional
+    public void storeComment(Integer employeeID, Integer reportID, String comment, String createdDate){
+        houseDaoImpl.storeComment(employeeID, reportID, comment, createdDate);
+        return;
+    }
+
+    @Override
+    @Transactional
+    public void storeReport(String title, Integer employeeID, String description){
+        houseDaoImpl.storeReport(title, employeeID, description);
+        return;
+    }
+
+    @Override
+    @Transactional
+    public void changeStatus(Integer reportID){
+        houseDaoImpl.changeStatus(reportID);
+        return;
+    }
+
 }
 

@@ -7,4 +7,6 @@ public interface AddressDao {
     void saveAddress(Address address);
 
     void saveEmployee(Employee employee);
+
+    Address getAdressByPersonID(int employeeID);
 }
