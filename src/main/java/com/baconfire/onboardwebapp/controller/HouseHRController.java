@@ -59,5 +59,22 @@ public class HouseHRController {
         detailResponse.setReportDetails(houseService.getReportDetail(reportID));
         return detailResponse;
     }
+
+    @PostMapping("/addcomment")
+    public CommentResponse commentResponse(@RequestBody CommentRequest commentRequest){
+
+        CommentResponse commentResponse = new CommentResponse();
+        houseService.storeComment(commentRequest.getEmployeeID(), commentRequest.getReportID(), commentRequest.getComment(), commentRequest.getCreatedDate());
+
+        return commentResponse;
+    }
+
+    @PostMapping("/changeStatus")
+    public CommentResponse commentResponse(@RequestBody ReportDetailRequest reportDetailRequest){
+
+        CommentResponse commentResponse = new CommentResponse();
+        houseService.changeStatus(reportDetailRequest.getReportID());
+        return commentResponse;
+    }
 }
 

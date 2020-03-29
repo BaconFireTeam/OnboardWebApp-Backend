@@ -14,6 +14,9 @@ public interface HouseDAO {
     List<FacilityReport> getFacilityReport(Integer EmployeeID);
     List<FacilityReportDetail> getReportDetail(Integer ReportID);
     List<FacilityReport> getAllReport(List<Integer> employeeList);
+    void storeComment(Integer employeeID, Integer reportID, String comment, String createdDate);
+    void storeReport(String title, Integer employeeID, String description);
+    void changeStatus(Integer reportID);
 
 
 
