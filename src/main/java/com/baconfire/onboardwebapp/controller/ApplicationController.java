@@ -1,16 +1,12 @@
 package com.baconfire.onboardwebapp.controller;
 
-import com.baconfire.onboardwebapp.domain.Address;
-import com.baconfire.onboardwebapp.domain.Contact;
-import com.baconfire.onboardwebapp.domain.Employee;
-import com.baconfire.onboardwebapp.domain.Person;
-import com.baconfire.onboardwebapp.restful.domain.ReviewApplication.ApplicationDetailResponse;
-import com.baconfire.onboardwebapp.restful.domain.ReviewApplication.ContactResponse;
-import com.baconfire.onboardwebapp.service.ApplicationService;
+import com.baconfire.onboardwebapp.domain.*;
+import com.baconfire.onboardwebapp.restful.domain.ReviewApplication.*;
 import com.baconfire.onboardwebapp.service.EmployeeService;
 import com.baconfire.onboardwebapp.service.FileStorage.PersonalDocumentService;
 import com.baconfire.onboardwebapp.service.PersonService;
 import com.baconfire.onboardwebapp.service.ReviewApplication.AddressService;
+import com.baconfire.onboardwebapp.service.ReviewApplication.ApplicationWorkFlowService;
 import com.baconfire.onboardwebapp.service.ReviewApplication.ContactService;
 import com.baconfire.onboardwebapp.service.VisaStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ApplicationController {
@@ -29,6 +26,7 @@ public class ApplicationController {
     private AddressService addressServiceImpl;
 
     private PersonalDocumentService personalDocumentServiceImpl;
+    private ApplicationWorkFlowService applicationWorkFlowServiceImpl;
 
     @Autowired
     public void setEmployeeServiceImpl(EmployeeService employeeServiceImpl) {
@@ -58,6 +56,11 @@ public class ApplicationController {
     @Autowired
     public void setPersonalDocumentServiceImpl(PersonalDocumentService personalDocumentServiceImpl) {
         this.personalDocumentServiceImpl = personalDocumentServiceImpl;
+    }
+
+    @Autowired
+    public void setApplicationWorkFlowServiceImpl(ApplicationWorkFlowService applicationWorkFlowServiceImpl) {
+        this.applicationWorkFlowServiceImpl = applicationWorkFlowServiceImpl;
     }
 
     @GetMapping("/getApplicationDetail")
@@ -106,6 +109,29 @@ public class ApplicationController {
         response.setStateName(address.getStateName());
         response.setStateAbbr(address.getStateAbbr());
 
+        return response;
+    }
+
+    @GetMapping("employee/getFormComment")
+    public FormCommentResponse getFormComment(String employeeID) {
+        FormCommentResponse response = new FormCommentResponse();
+        String comment = this.applicationWorkFlowServiceImpl.getComment(Integer.valueOf(employeeID));
+        response.setComment(comment);
+        return response;
+    }
+
+    @GetMapping("employee/getFileComment")
+    public FileCommentResponse getFileComment(String employeeID) {
+        FileCommentResponse response = new FileCommentResponse();
+        List<PersonalDocument> personalDocumentList = this.personalDocumentServiceImpl.getComment(Integer.valueOf(employeeID));
+
+        List<CommentResponse> fileCommentList = new ArrayList<>();
+        personalDocumentList.forEach(personalDocument -> {
+            fileCommentList.add(new CommentResponse(personalDocument.getId(), personalDocument.getPath()
+                    , personalDocument.getTitle(), personalDocument.getComment()));
+        });
+
+        response.setFileCommentList(fileCommentList);
         return response;
     }
 }

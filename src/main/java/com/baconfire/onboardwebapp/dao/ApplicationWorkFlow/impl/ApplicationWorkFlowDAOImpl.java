@@ -88,4 +88,15 @@ public class ApplicationWorkFlowDAOImpl extends AbstractHibernateDAO<Application
 
         session.update(applicationWorkFlow);
     }
+
+    @Override
+    public String getComment(int employeeID) {
+        Session session = getCurrentSession();
+
+        ApplicationWorkFlow app = (ApplicationWorkFlow) session.createQuery("FROM ApplicationWorkFlow WHERE employeeID=:id AND type = 'Onboarding'")
+                .setParameter("id", employeeID)
+                .getSingleResult();
+
+        return app.getComments();
+    }
 }
