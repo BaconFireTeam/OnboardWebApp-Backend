@@ -35,4 +35,14 @@ public class PersonalDocumentDAOImpl extends AbstractHibernateDAO<PersonalDocume
 
         session.update(doc);
     }
+
+    @Override
+    public List<PersonalDocument> getComment(int employeeID) {
+        Session session = getCurrentSession();
+        List<PersonalDocument> res = session.createQuery("FROM PersonalDocument WHERE employeeID=:id AND type='Onboarding'")
+                .setParameter("id", employeeID)
+                .getResultList();
+
+        return res;
+    }
 }

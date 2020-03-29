@@ -26,4 +26,10 @@ public class ApplicationWorkFlowServiceImpl implements ApplicationWorkFlowServic
     public void updateStatus(int appID, String status) {
 
     }
+
+    @Override
+    @Transactional
+    public String getComment(int employeeID) {
+        return this.applicationWorkFlowDAOImpl.getComment(employeeID);
+    }
 }

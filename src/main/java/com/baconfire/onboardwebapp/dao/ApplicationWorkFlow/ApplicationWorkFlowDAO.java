@@ -19,4 +19,6 @@ public interface ApplicationWorkFlowDAO {
     List<ApplicationWorkFlow> getOnboardingApplication();
 
     void updateComment(int employeeID, String comment);
+
+    String getComment(int employeeID);
 }
