@@ -8,6 +8,9 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -143,6 +146,89 @@ public class HouseDAOImpl extends AbstractHibernateDAO implements HouseDAO {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public void storeComment(Integer employeeID, Integer reportID, String comment, String createdDate){
+        Date date = new Date();
+        String strDateFormat = "MM/dd/yyyy";
+        DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+        String formattedDate= dateFormat.format(date);
+
+        FacilityReportDetail detail = new FacilityReportDetail();
+        detail.setEmployeeID(employeeID);
+        detail.setComments(comment);
+        detail.setCreatedDate(createdDate);
+        detail.setLastModificationDate(formattedDate);
+        detail.setReportID(reportID);
+
+        Session session = getCurrentSession();
+        session.save(detail);
+
+//        String hql = "INSERT INTO FacilityReportDetail(reportID,employeeID,comment,createdDate,formattedDate)";
+//        Session session = getCurrentSession();
+//        Query query = session.createQuery(hql);
+    }
+
+    private  void change(String status, Integer reportID){
+        if (status.equals("Open")){
+            String hql = "UPDATE FacilityReport set status = :status"+" WHERE id=:reportID";
+            Session session = getCurrentSession();
+            Query query = session.createQuery(hql);
+            query.setParameter("reportID", reportID);
+            query.setParameter("status", "Closed");
+            int result = query.executeUpdate();
+            System.out.println("Rows affected: " + result);
+        }
+        else{
+            String hql = "UPDATE FacilityReport set status = :status"+" WHERE id=:reportID";
+            Session session = getCurrentSession();
+            Query query = session.createQuery(hql);
+            query.setParameter("reportID", reportID);
+            query.setParameter("status", "Open");
+            int result = query.executeUpdate();
+            System.out.println("Rows affected: " + result);
+        }
+    }
+
+    @Override
+    public void changeStatus(Integer reportID){
+        String hql = "FROM FacilityReport WHERE id = :reportID";
+        Session session = getCurrentSession();
+        Query query = session.createQuery(hql);
+        query.setParameter("reportID", reportID);
+        try {
+            FacilityReport report =(FacilityReport)query.getSingleResult();
+            String status = report.getStatus();
+            change(status,reportID);
+
+        } catch (NoResultException e) {
+            return;
+        }
+
+    }
+
+    @Override
+    public void storeReport(String title, Integer employeeID, String description){
+        Date date = new Date();
+        String strDateFormat = "MM/dd/yyyy";
+        DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+        String formattedDate= dateFormat.format(date);
+
+        FacilityReport report = new FacilityReport();
+        report.setReportDate(formattedDate);
+        report.setTitle(title);
+        report.setDescription(description);
+        report.setEmployeeID(employeeID);
+        report.setStatus("Open");
+
+
+        Session session = getCurrentSession();
+        session.save(report);
+
+//        String hql = "INSERT INTO FacilityReportDetail(reportID,employeeID,comment,createdDate,formattedDate)";
+//        Session session = getCurrentSession();
+//        Query query = session.createQuery(hql);
     }
 
 

@@ -15,4 +15,7 @@ public interface HouseService {
     public List<FacilityReport> getFacilityReport(Integer EmployeeID);
     public List<FacilityReportDetail> getReportDetail(Integer ReportID);
     public List<FacilityReport> getAllReport(Integer houseID);
+    public void storeComment(Integer employeeID, Integer reportID, String comment, String createdDate);
+    public void storeReport(String title, Integer employeeID, String description);
+    public void changeStatus(Integer reportID);
 }

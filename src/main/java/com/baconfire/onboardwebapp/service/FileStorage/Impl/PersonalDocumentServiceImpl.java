@@ -48,7 +48,13 @@ public class PersonalDocumentServiceImpl implements PersonalDocumentService {
 
     @Override
     @Transactional
-    public     List<PersonalDocument> getFilesByIDAndType(int employeeID, String type) {
+    public List<PersonalDocument> getFilesByIDAndType(int employeeID, String type) {
         return personalDocumentDAOImpl.getFilesByIDAndType(employeeID, type);
+    }
+
+    @Override
+    @Transactional
+    public void updateComment(int fileID, String comment) {
+        this.personalDocumentDAOImpl.updateComment(fileID, comment);
     }
 }

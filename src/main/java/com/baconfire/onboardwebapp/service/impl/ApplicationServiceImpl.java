@@ -101,4 +101,22 @@ public class ApplicationServiceImpl implements ApplicationService {
         applicationWorkFlow.setType("Onboarding");
         this.applicationWorkFlowDAOImpl.updateApplication(applicationWorkFlow);
     }
+
+    @Override
+    @Transactional
+    public List<ApplicationWorkFlow> getApplicationByStatus(String status) {
+        return this.applicationWorkFlowDAOImpl.getApplicationByStatus(status);
+    }
+
+    @Override
+    @Transactional
+    public List<ApplicationWorkFlow> getOnboardingApplication() {
+        return this.applicationWorkFlowDAOImpl.getOnboardingApplication();
+    }
+
+    @Override
+    @Transactional
+    public void updateComment(int employeeID, String comment) {
+        this.applicationWorkFlowDAOImpl.updateComment(employeeID, comment);
+    }
 }

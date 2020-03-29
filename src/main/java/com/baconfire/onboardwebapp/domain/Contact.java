@@ -33,5 +33,4 @@ public class Contact extends Person implements Serializable {
     @Column(name = "isLandlord")
     private String isLandlord;
 
-
 }
