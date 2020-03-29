@@ -32,6 +32,34 @@ public class EmployeeDAOImpl extends AbstractHibernateDAO<Employee> implements E
     }
 
     @Override
+    public List<Employee> getFirstLikeEmployees(String search) {
+        String hql = "FROM Employee WHERE firstname LIKE concat('%',:search,'%')";
+        Session session = getCurrentSession();
+        Query query = session.createQuery(hql);
+        query.setParameter("search", search);
+        try {
+            List employee = (List<Employee>) query.getResultList();
+            return employee;
+        } catch(NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Employee> getLastLikeEmployees(String search) {
+        String hql = "FROM Employee WHERE lastname LIKE concat('%',:search,'%')";
+        Session session = getCurrentSession();
+        Query query = session.createQuery(hql);
+        query.setParameter("search", search);
+        try {
+            List employee = (List<Employee>) query.getResultList();
+            return employee;
+        } catch(NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
     public int saveEmployee(Employee employee) {
         Employee e = (Employee) getCurrentSession().merge(employee);
         return e.getId();

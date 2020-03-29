@@ -11,4 +11,8 @@ public interface EmployeeDAO {
     Employee getEmployeeByID(int employeeID);
 
     List<Employee> getAllEmployees();
+
+    List<Employee> getFirstLikeEmployees(String search);
+
+    List<Employee> getLastLikeEmployees(String search);
 }
