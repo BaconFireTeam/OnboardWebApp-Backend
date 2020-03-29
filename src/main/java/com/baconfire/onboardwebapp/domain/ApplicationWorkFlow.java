@@ -37,6 +37,5 @@ public class ApplicationWorkFlow implements Serializable {
 
     @Column(name = "Type")
     private String type;
-
 }
 

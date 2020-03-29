@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AddressDaoImpl extends AbstractHibernateDAO<Address> implements AddressDao {
+    public AddressDaoImpl() {
+        setClazz(Address.class);
+    }
 
     @Override
     public void saveAddress(Address address) {
@@ -17,5 +20,12 @@ public class AddressDaoImpl extends AbstractHibernateDAO<Address> implements Add
     @Override
     public void saveEmployee(Employee employee) {
 
+    }
+
+    @Override
+    public Address getAdressByPersonID(int employeeID) {
+        return (Address) getCurrentSession().createQuery("FROM Address WHERE personID =: id")
+                .setParameter("id", employeeID)
+                .getSingleResult();
     }
 }
