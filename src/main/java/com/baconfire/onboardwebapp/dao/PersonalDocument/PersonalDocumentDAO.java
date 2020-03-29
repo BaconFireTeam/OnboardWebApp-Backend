@@ -10,4 +10,6 @@ public interface PersonalDocumentDAO {
     List<PersonalDocument> getFilesByIDAndType(int employeeID, String type);
 
     void updateComment(int employeeID, String comment);
+
+    List<PersonalDocument> getComment(int employeeID);
 }
