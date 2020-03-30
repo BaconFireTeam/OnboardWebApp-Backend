@@ -1,4 +1,4 @@
-package com.baconfire.onboardwebapp.security.util;
+package com.baconfire.onboardwebapp.util;
 
 import org.springframework.web.util.WebUtils;
 

@@ -67,7 +67,7 @@ public class ApplicationController {
     public ApplicationDetailResponse getEmployeeApplication(String employeeId) {
         ApplicationDetailResponse response = new ApplicationDetailResponse();
 
-        int employeeID = Integer.valueOf(employeeId);
+        int employeeID = Integer.parseInt(employeeId);
         // Person Info
         Person person = this.personServiceImpl.getPersonByID(employeeID);
         response.setFirstname(person.getFirstname());
