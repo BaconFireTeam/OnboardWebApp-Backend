@@ -9,10 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.baconfire.onboardwebapp.security.util.JwtUtil;
+import com.baconfire.onboardwebapp.util.JwtUtil;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -21,29 +24,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	private JwtUtil jwtUtil;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws ServletException, IOException {
-		final String authorizationHeader = request.getHeader("Authorization");
-
-		String username = null;
-		String jwt = null;
-
-		// extract the username and token
-		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-			jwt = authorizationHeader.substring(7);
-			username = jwtUtil.extractUsername(jwt);
-		}
-
-		// the second condition is used to make sure SecurityContextHolder doesn't
-		// already have a authenticated user
-		// if the user is authenticated
-		if (username != null && jwtUtil.validateToken(jwt)) {
-			chain.doFilter(request, response);
+	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+		String token = jwtUtil.resolveToken(httpServletRequest);
+		if (token != null && jwtUtil.validateToken(token)) {
+			Authentication auth = jwtUtil.getAuthentication(token);
+			SecurityContextHolder.getContext().setAuthentication(auth);
+			filterChain.doFilter(httpServletRequest, httpServletResponse);
 		} else {
-			// if the user is not authenticated, send a 401 error response
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-			// TODO:
-			// response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
 	}
 }
