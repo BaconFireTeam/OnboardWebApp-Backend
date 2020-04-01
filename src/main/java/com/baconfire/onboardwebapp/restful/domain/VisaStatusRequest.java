@@ -1,5 +1,6 @@
 package com.baconfire.onboardwebapp.restful.domain;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Getter
@@ -9,5 +10,7 @@ import lombok.*;
 @ToString
 
 public class VisaStatusRequest {
+
+    @ApiModelProperty(notes="EmployeeID", required = true)
     private int employeeId;
 }
